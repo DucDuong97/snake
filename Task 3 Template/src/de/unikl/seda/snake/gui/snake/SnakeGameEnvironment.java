@@ -5,9 +5,8 @@ import de.unikl.seda.snake.gui.tools.GameEnvironment;
 import java.awt.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
-
-    //TODO implement point 3
-
+    // implement currentLocation
+    private Point currentLocation;
     private static final int gameInfoBannerHeight = 25;
     private int count = 0;
     private String playerName;
@@ -18,6 +17,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
         super(height, width + gameInfoBannerHeight);
         this.playerName = playerName;
         this.pixel= pixel;
+        this.currentLocation = new Point(0, 40);
     }
 
     //TODO implement input logic 4
@@ -50,7 +50,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
     @Override
     protected void drawSnakeEnvironment(Graphics2D graphics) {
 
-        //TODO design GUI 2
+        //design GUI 2
 
         graphics.setColor(new Color(125, 167, 116));
         graphics.fillRect(0,0,this.getWidth(),40);
@@ -66,6 +66,9 @@ public class SnakeGameEnvironment extends GameEnvironment {
             }
             y += pixel;
         }
+
+        graphics.setColor(Color.ORANGE);
+        graphics.fillRect(currentLocation.getX(), currentLocation.getY(), this.pixel, this.pixel);
 
 //        graphics.drawString("Hello Snake!", 100, 400);
 //        graphics.drawString("Width: " + getWidth() + " Height: " + getHeight(), 100, 430);
@@ -108,5 +111,31 @@ public class SnakeGameEnvironment extends GameEnvironment {
 //
 //        graphics.setColor(new Color(31, 21, 1));
 //        graphics.fillRect(250, 195, 90, 60);
+    }
+
+    private static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
     }
 }
