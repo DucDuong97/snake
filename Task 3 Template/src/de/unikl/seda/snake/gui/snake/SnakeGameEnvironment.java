@@ -1,6 +1,7 @@
 package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
+import javafx.scene.control.skin.TextInputControlSkin;
 
 import java.awt.*;
 
@@ -8,6 +9,9 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
     private final int HEADER_HEIGHT = 40;
     private final int INFO_HEIGHT = 25;
+    private Point currentLocation;
+    private Direction currentDirection = Direction.IDLE;
+    private Color currentColor;
     private static final int gameInfoBannerHeight = 25;
     //TODO implement point 3
 
@@ -15,6 +19,13 @@ public class SnakeGameEnvironment extends GameEnvironment {
     private int pixel;
     private int score;
 
+    enum Direction {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        IDLE
+    }
 
     public SnakeGameEnvironment(int width, int height, String playerName, int pixel) {
         // sets the size of the snake environment
@@ -22,40 +33,70 @@ public class SnakeGameEnvironment extends GameEnvironment {
         this.playerName = playerName;
         this.pixel= pixel;
         this.score = 0;
+        this.currentLocation = new Point(0, 40);
+        this.currentColor = Color.RED;
     }
-
-    //TODO implement input logic 4
 
     @Override
     protected void handleKeypressUp() {
-        System.out.println("Up");
+        currentDirection = Direction.UP;
+        int currentY = currentLocation.getY();
+        currentY = currentY - pixel;
+        if (currentY < 40) {
+            currentY = getHeight() - gameInfoBannerHeight;
+        }
+        currentLocation.setY(currentY);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressDown() {
-        System.out.println("Down");
+        currentDirection = Direction.DOWN;
+        int currentY = currentLocation.getY();
+        currentY = currentY + pixel;
+        if (currentY > getHeight() - gameInfoBannerHeight) {
+            currentY = pixel;
+        }
+        currentLocation.setY(currentY);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressLeft() {
-        System.out.println("Left");
+        currentDirection = Direction.LEFT;
+        int currentX = currentLocation.getX();
+        currentX = currentX - pixel;
+        if (currentX < 0) {
+            currentX = getWidth() - pixel;
+        }
+        currentLocation.setX(currentX);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressRight() {
-        System.out.println("Right");
+        currentDirection = Direction.RIGHT;
+        int currentX = currentLocation.getX();
+        currentX = currentX + pixel;
+        if (currentX > getWidth() - pixel) {
+            currentX = 0;
+        }
+        currentLocation.setX(currentX);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleReturnPress() {
-        System.out.println("RETURN");
+        if (currentColor == Color.RED) {
+            currentColor = Color.BLUE;
+        } else {
+            currentColor = Color.RED;
+        }
+        System.out.println("New color is " + currentColor.toString());
     }
 
     @Override
     protected void drawSnakeEnvironment(Graphics2D graphics) {
-
-        //TODO design GUI 2
-
         // draw header
         graphics.setColor(new Color(125, 167, 116));
         graphics.fillRect(0,0,this.getWidth(),HEADER_HEIGHT);
@@ -65,7 +106,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
         // draw grid
         int y = HEADER_HEIGHT;
-        while (y < getHeight()) {
+        while (y < getHeight() - INFO_HEIGHT) {
             int x = 0;
             while (x < getWidth()) {
                 graphics.drawRect(x, y, pixel, pixel);
@@ -73,6 +114,9 @@ public class SnakeGameEnvironment extends GameEnvironment {
             }
             y += pixel;
         }
+
+        graphics.setColor(currentColor);
+        graphics.fillRect(currentLocation.getX(), currentLocation.getY(), this.pixel, this.pixel);
 
 //        graphics.drawString("Hello Snake!", 100, 400);
 //        graphics.drawString("Width: " + getWidth() + " Height: " + getHeight(), 100, 430);
@@ -115,5 +159,36 @@ public class SnakeGameEnvironment extends GameEnvironment {
 //
 //        graphics.setColor(new Color(31, 21, 1));
 //        graphics.fillRect(250, 195, 90, 60);
+    }
+
+    private static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+    }
+
+    private void printMovementLog(int x, int y, Direction dir) {
+        System.out.println("New location is (" + currentLocation.getX() + "," + currentLocation.getY()
+                + ")\nNew Direction is " + currentDirection.toString());
     }
 }
