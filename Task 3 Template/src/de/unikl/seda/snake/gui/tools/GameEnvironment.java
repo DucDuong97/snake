@@ -11,7 +11,7 @@ import javax.swing.*;
  *  The thread @{@link UiUpdateThread} is used to periodically repaint the GUI.
  * */
 public abstract class GameEnvironment extends JPanel {
-    private UiUpdateThread uiUpdateThread;
+    protected UiUpdateThread uiUpdateThread;
     private final int width, height;
 
     public GameEnvironment(int width, int height) {

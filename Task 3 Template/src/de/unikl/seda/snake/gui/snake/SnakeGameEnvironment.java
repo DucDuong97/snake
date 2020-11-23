@@ -1,7 +1,6 @@
 package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
-import javafx.scene.control.skin.TextInputControlSkin;
 
 import java.awt.*;
 
@@ -40,48 +39,28 @@ public class SnakeGameEnvironment extends GameEnvironment {
     @Override
     protected void handleKeypressUp() {
         currentDirection = Direction.UP;
-        int currentY = currentLocation.getY();
-        currentY = currentY - pixel;
-        if (currentY < 40) {
-            currentY = getHeight() - gameInfoBannerHeight;
-        }
-        currentLocation.setY(currentY);
+        uiUpdateThread.interrupt();
         printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressDown() {
         currentDirection = Direction.DOWN;
-        int currentY = currentLocation.getY();
-        currentY = currentY + pixel;
-        if (currentY > getHeight() - gameInfoBannerHeight) {
-            currentY = pixel;
-        }
-        currentLocation.setY(currentY);
+        uiUpdateThread.interrupt();
         printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressLeft() {
         currentDirection = Direction.LEFT;
-        int currentX = currentLocation.getX();
-        currentX = currentX - pixel;
-        if (currentX < 0) {
-            currentX = getWidth() - pixel;
-        }
-        currentLocation.setX(currentX);
+        uiUpdateThread.interrupt();
         printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressRight() {
         currentDirection = Direction.RIGHT;
-        int currentX = currentLocation.getX();
-        currentX = currentX + pixel;
-        if (currentX > getWidth() - pixel) {
-            currentX = 0;
-        }
-        currentLocation.setX(currentX);
+        uiUpdateThread.interrupt();
         printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
@@ -184,6 +163,44 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
         public void setY(int y) {
             this.y = y;
+        }
+    }
+
+     public void moveFoward() {
+        int currentX = currentLocation.getX();
+        int currentY = currentLocation.getY();
+        switch(currentDirection) {
+            case UP:
+
+                currentY = currentY - pixel;
+                if (currentY < 40) {
+                    currentY = getHeight() - gameInfoBannerHeight;
+                }
+                currentLocation.setY(currentY);
+                break;
+            case DOWN:
+                currentY = currentY + pixel;
+                if (currentY > getHeight() - gameInfoBannerHeight) {
+                    currentY = pixel;
+                }
+                currentLocation.setY(currentY);
+                break;
+            case LEFT:
+                currentX = currentX - pixel;
+                if (currentX < 0) {
+                    currentX = getWidth() - pixel;
+                }
+                currentLocation.setX(currentX);
+                break;
+            case RIGHT:
+                currentX = currentX + pixel;
+                if (currentX > getWidth() - pixel) {
+                    currentX = 0;
+                }
+                currentLocation.setX(currentX);
+                break;
+            case IDLE:
+                break;
         }
     }
 
