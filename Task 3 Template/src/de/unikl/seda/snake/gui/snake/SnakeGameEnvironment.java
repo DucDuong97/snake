@@ -6,18 +6,22 @@ import java.awt.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 
+    private final int HEADER_HEIGHT = 40;
+    private final int INFO_HEIGHT = 25;
+    private static final int gameInfoBannerHeight = 25;
     //TODO implement point 3
 
-    private static final int gameInfoBannerHeight = 25;
-    private int count = 0;
     private String playerName;
     private int pixel;
+    private int score;
 
-    public SnakeGameEnvironment(int height, int width, String playerName, int pixel) {
+
+    public SnakeGameEnvironment(int width, int height, String playerName, int pixel) {
         // sets the size of the snake environment
-        super(height, width + gameInfoBannerHeight);
+        super(width, height + gameInfoBannerHeight);
         this.playerName = playerName;
         this.pixel= pixel;
+        this.score = 0;
     }
 
     //TODO implement input logic 4
@@ -52,12 +56,15 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
         //TODO design GUI 2
 
+        // draw header
         graphics.setColor(new Color(125, 167, 116));
-        graphics.fillRect(0,0,this.getWidth(),40);
+        graphics.fillRect(0,0,this.getWidth(),HEADER_HEIGHT);
         graphics.setColor(Color.BLACK);
-        graphics.drawString(this.playerName, 10, 20);
+        graphics.drawString(this.playerName, 10, INFO_HEIGHT);
+        graphics.drawString("Score: " + this.score, getWidth() - 80, INFO_HEIGHT);
 
-        int y = 40;
+        // draw grid
+        int y = HEADER_HEIGHT;
         while (y < getHeight()) {
             int x = 0;
             while (x < getWidth()) {
