@@ -7,10 +7,20 @@ import java.awt.*;
 public class SnakeGameEnvironment extends GameEnvironment {
     // implement currentLocation
     private Point currentLocation;
+    private Direction currentDirection = Direction.IDLE;
+    private Color currentColor;
     private static final int gameInfoBannerHeight = 25;
     private int count = 0;
     private String playerName;
     private int pixel;
+
+    enum Direction {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        IDLE
+    }
 
     public SnakeGameEnvironment(int height, int width, String playerName, int pixel) {
         // sets the size of the snake environment
@@ -18,33 +28,65 @@ public class SnakeGameEnvironment extends GameEnvironment {
         this.playerName = playerName;
         this.pixel= pixel;
         this.currentLocation = new Point(0, 40);
+        this.currentColor = Color.RED;
     }
-
-    //TODO implement input logic 4
 
     @Override
     protected void handleKeypressUp() {
-        System.out.println("Up");
+        currentDirection = Direction.UP;
+        int currentY = currentLocation.getY();
+        currentY = currentY - pixel;
+        if (currentY < 40) {
+            currentY = getHeight() - gameInfoBannerHeight;
+        }
+        currentLocation.setY(currentY);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressDown() {
-        System.out.println("Down");
+        currentDirection = Direction.DOWN;
+        int currentY = currentLocation.getY();
+        currentY = currentY + pixel;
+        if (currentY > getHeight() - gameInfoBannerHeight) {
+            currentY = pixel;
+        }
+        currentLocation.setY(currentY);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressLeft() {
-        System.out.println("Left");
+        currentDirection = Direction.LEFT;
+        int currentX = currentLocation.getX();
+        currentX = currentX - pixel;
+        if (currentX < 0) {
+            currentX = getWidth() - pixel;
+        }
+        currentLocation.setX(currentX);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleKeypressRight() {
-        System.out.println("Right");
+        currentDirection = Direction.RIGHT;
+        int currentX = currentLocation.getX();
+        currentX = currentX + pixel;
+        if (currentX > getWidth() - pixel) {
+            currentX = 0;
+        }
+        currentLocation.setX(currentX);
+        printMovementLog(currentLocation.getX(), currentLocation.getY(), currentDirection);
     }
 
     @Override
     protected void handleReturnPress() {
-        System.out.println("RETURN");
+        if (currentColor == Color.RED) {
+            currentColor = Color.BLUE;
+        } else {
+            currentColor = Color.RED;
+        }
+        System.out.println("New color is " + currentColor.toString());
     }
 
     @Override
@@ -67,7 +109,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
             y += pixel;
         }
 
-        graphics.setColor(Color.ORANGE);
+        graphics.setColor(currentColor);
         graphics.fillRect(currentLocation.getX(), currentLocation.getY(), this.pixel, this.pixel);
 
 //        graphics.drawString("Hello Snake!", 100, 400);
@@ -137,5 +179,10 @@ public class SnakeGameEnvironment extends GameEnvironment {
         public void setY(int y) {
             this.y = y;
         }
+    }
+
+    private void printMovementLog(int x, int y, Direction dir) {
+        System.out.println("New location is (" + currentLocation.getX() + "," + currentLocation.getY()
+                + ")\nNew Direction is " + currentDirection.toString());
     }
 }

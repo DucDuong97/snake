@@ -9,7 +9,7 @@ public class Main {
         //TODO implement console input 1
 
         // Create game instance
-        SnakeGameEnvironment game = new SnakeGameEnvironment(800, 600, "Duc", 50);
+        SnakeGameEnvironment game = new SnakeGameEnvironment(800, 600, "Duc", 40);
 
         // Start game session
         GuiContainer.show("Snake", game);}
