@@ -30,13 +30,12 @@ public class Main {
     private static void startGame() {
 
         System.out.print("Input player name: ");
-        String userName = s.nextLine();
+        String playerName = s.next();
         System.out.print("Input square size in pixels: ");
-        int squareSize = s.nextInt();
+        int pixel = s.nextInt();
 
         // Create game instance
-        //SnakeGameEnvironment game = new SnakeGameEnvironment(800, 600, "Duc", 50);
-        SnakeGameEnvironment game = new SnakeGameEnvironment(800, 600, userName, squareSize);
+        SnakeGameEnvironment game = new SnakeGameEnvironment(800, 600, playerName, pixel);
 
         // Start game session
         GuiContainer.show("Snake", game);
