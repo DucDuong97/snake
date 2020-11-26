@@ -138,7 +138,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
             case UP:
 
                 currentY = currentY - pixel;
-                if (currentY < 40) {
+                if (currentY < HEADER_HEIGHT) {
                     currentY = getHeight() - gameInfoBannerHeight - DELTA;
                 }
                 currentLocation.setY(currentY);
