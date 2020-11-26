@@ -18,7 +18,7 @@ public class UiUpdateThread extends Thread {
     @Override
     public void run() {
         while(drawingEnv.isVisible()) {
-            ((SnakeGameEnvironment) drawingEnv).moveFoward();
+            ((SnakeGameEnvironment) drawingEnv).moveForward();
             drawingEnv.repaint();
 
             try {
