@@ -8,11 +8,8 @@ import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.Direction.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 
-    private static final int HEADER_HEIGHT = 40;
-    private static final int INFO_HEIGHT = 25;
-    private static final int gameInfoBannerHeight = 25;
-    private int relativeHeight;
-    private static final int DELTA = 15;
+    private static final int GAME_INFO_BANNER_HEIGHT = 25;
+    private static final int INFO_HEIGHT = 18;
 
     private Point currentLocation;
     private Direction currentDirection = IDLE;
@@ -32,13 +29,14 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
     public SnakeGameEnvironment(int width, int height, String playerName, int pixel) {
         // sets the size of the snake environment
-        super(width, pixel *(height / pixel) + gameInfoBannerHeight + DELTA);
-        this.relativeHeight = pixel *(height / pixel);
+        super(pixel *(width / pixel), pixel *(height / pixel) + GAME_INFO_BANNER_HEIGHT);
         this.playerName = playerName;
         this.pixel= pixel;
         this.score = 0;
-        this.currentLocation = new Point(0, 40);
+        this.currentLocation = new Point(0, GAME_INFO_BANNER_HEIGHT);
         this.currentColor = Color.RED;
+
+        System.out.println(getHeight());
     }
 
     @Override
@@ -83,16 +81,16 @@ public class SnakeGameEnvironment extends GameEnvironment {
     protected void drawSnakeEnvironment(Graphics2D graphics) {
         // draw header
         graphics.setColor(new Color(125, 167, 116));
-        graphics.fillRect(0,0,this.getWidth(),HEADER_HEIGHT);
+        graphics.fillRect(0,0,this.getWidth(), GAME_INFO_BANNER_HEIGHT);
         graphics.setColor(Color.BLACK);
         graphics.drawString(this.playerName, 10, INFO_HEIGHT);
         graphics.drawString("Score: " + this.score, getWidth() - 80, INFO_HEIGHT);
 
         // draw grid
-        int y = HEADER_HEIGHT;
-        while (y <= relativeHeight) {
+        int y = GAME_INFO_BANNER_HEIGHT;
+        while (y <= getHeight()) {
             int x = 0;
-            while (x < getWidth()) {
+            while (x <= getWidth()) {
                 graphics.drawRect(x, y, pixel, pixel);
                 x += pixel;
             }
@@ -102,7 +100,6 @@ public class SnakeGameEnvironment extends GameEnvironment {
         // draw snake
         graphics.setColor(currentColor);
         graphics.fillRect(currentLocation.getX(), currentLocation.getY(), this.pixel, this.pixel);
-
     }
 
     private static class Point {
@@ -138,15 +135,15 @@ public class SnakeGameEnvironment extends GameEnvironment {
             case UP:
 
                 currentY = currentY - pixel;
-                if (currentY < HEADER_HEIGHT) {
-                    currentY = getHeight() - gameInfoBannerHeight - DELTA;
+                if (currentY < GAME_INFO_BANNER_HEIGHT) {
+                    currentY = getHeight() -pixel;
                 }
                 currentLocation.setY(currentY);
                 break;
             case DOWN:
                 currentY = currentY + pixel;
-                if (currentY > getHeight() - gameInfoBannerHeight - DELTA) {
-                    currentY = pixel;
+                if (currentY > getHeight() - pixel) {
+                    currentY = GAME_INFO_BANNER_HEIGHT;
                 }
                 currentLocation.setY(currentY);
                 break;

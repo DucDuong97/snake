@@ -23,11 +23,7 @@ public class UiUpdateThread extends Thread {
 
             try {
                 Thread.sleep(250);
-            } catch (InterruptedException e) {
-
-                // Exception won't happen unless someone invokes "updateThread.interrupt()" - and I won't be that someone. ^^
-                e.printStackTrace();
-            }
+            } catch (InterruptedException ignored) {}
         }
     }
 }
