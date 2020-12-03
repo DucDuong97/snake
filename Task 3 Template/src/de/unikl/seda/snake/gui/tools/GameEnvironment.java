@@ -12,11 +12,12 @@ import javax.swing.*;
  * */
 public abstract class GameEnvironment extends JPanel {
     protected UiUpdateThread uiUpdateThread;
-    private final int width, height;
+    private final int width, height, gameSpeed;
 
-    public GameEnvironment(int width, int height) {
+    public GameEnvironment(int width, int height, int gameSpeed) {
         this.width = width;
         this.height = height;
+        this.gameSpeed = gameSpeed;
 
         // --------------------------- Handle Keypress to method calls -----------------------------------
 
@@ -78,6 +79,9 @@ public abstract class GameEnvironment extends JPanel {
     public int getHeight() {
         return height;
     }
+
+    public int getGameSpeed() {
+        return gameSpeed;}
 
     protected abstract void drawSnakeEnvironment(Graphics2D graphics);
 
