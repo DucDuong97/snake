@@ -1,8 +1,10 @@
 package de.unikl.seda.snake.gui.snake.model;
 
+import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
+
 import java.awt.*;
 
-public class GameObject {
+public abstract class GameObject {
 
     protected Point location;
     protected Color color;
@@ -27,4 +29,6 @@ public class GameObject {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public abstract void draw(Graphics2D graphics, SnakeGameSettings gameSettings);
 }

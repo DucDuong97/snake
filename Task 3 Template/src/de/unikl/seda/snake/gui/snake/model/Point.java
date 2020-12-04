@@ -35,4 +35,11 @@ public class Point {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Point)) return false;
+        Point other = (Point) obj;
+        return this.x == other.x && this.y == other.y;
+    }
 }
