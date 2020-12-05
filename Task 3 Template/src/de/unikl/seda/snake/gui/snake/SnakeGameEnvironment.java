@@ -30,29 +30,36 @@ public class SnakeGameEnvironment extends GameEnvironment {
         this.snakeGameState = new SnakeGameState(snakeGameSettings);
     }
 
-    //TODO movement behavior 1.1
     @Override
     protected void handleKeypressUp() {
-        snakeGameState.getSnakeHead().setCurrentDirection(UP);
-        uiUpdateThread.interrupt();
+        if (snakeGameState.getSnakeHead().getCurrentDirection() != DOWN) {
+            snakeGameState.getSnakeHead().setCurrentDirection(UP);
+            uiUpdateThread.interrupt();
+        }
     }
 
     @Override
     protected void handleKeypressDown() {
-        snakeGameState.getSnakeHead().setCurrentDirection(DOWN);
-        uiUpdateThread.interrupt();
+        if (snakeGameState.getSnakeHead().getCurrentDirection() != UP) {
+            snakeGameState.getSnakeHead().setCurrentDirection(DOWN);
+            uiUpdateThread.interrupt();
+        }
     }
 
     @Override
     protected void handleKeypressLeft() {
-        snakeGameState.getSnakeHead().setCurrentDirection(LEFT);
-        uiUpdateThread.interrupt();
+        if (snakeGameState.getSnakeHead().getCurrentDirection() != RIGHT) {
+            snakeGameState.getSnakeHead().setCurrentDirection(LEFT);
+            uiUpdateThread.interrupt();
+        }
     }
 
     @Override
     protected void handleKeypressRight() {
-        snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
-        uiUpdateThread.interrupt();
+        if (snakeGameState.getSnakeHead().getCurrentDirection() != LEFT) {
+            snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
+            uiUpdateThread.interrupt();
+        }
     }
 
     @Override

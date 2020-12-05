@@ -1,12 +1,11 @@
 package de.unikl.seda.snake.gui.snake;
 
-import de.unikl.seda.snake.gui.snake.model.GameObject;
-import de.unikl.seda.snake.gui.snake.model.Point;
-import de.unikl.seda.snake.gui.snake.model.SnakeHead;
+import de.unikl.seda.snake.gui.snake.model.*;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import static de.unikl.seda.snake.gui.snake.SnakeGameState.State.ALIVE;
@@ -26,7 +25,7 @@ public class SnakeGameState {
     // Snake
     private SnakeHead snakeHead;
 
-    enum  State {
+    public enum  State {
         DEAD, ALIVE
     }
 
@@ -43,6 +42,13 @@ public class SnakeGameState {
         this.snakeHead = new SnakeHead(new Point(0, 0));
         this.objectSet.add(snakeHead);
         this.updatableSet.add(snakeHead);
+
+        // Just for testing purpose
+        Wall testWall = new Wall(new Point(10, 10));
+        this.objectSet.add(testWall);
+        this.hittableSet.add(testWall);
+
+        generateFood();
         // set init head location
         // create wall and add to objects list
     }
@@ -71,8 +77,8 @@ public class SnakeGameState {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void increaseScore() {
+        this.score += 1;
     }
 
     public Set<Updatable> getUpdatableSet() {
@@ -101,14 +107,42 @@ public class SnakeGameState {
     }
 
     //TODO food placement 1.2
-    private void generateFood() {
+    public void generateFood() {
         // generate a random Point
-        // check if this point is available
-        // add it to object list in gameState
+        Random rand = new Random();
+
+        boolean overlap = false;
+        int x;
+        int y;
+
+        Point tempPoint;
+        do {
+            //Generate a x-coordinate between [0, getWidth()], the value must divisible by pixel
+            x = rand.nextInt(gameSettings.getxBound());
+            //Generate a y-coordinate between [GAME_INFO_BANNER_HEIGHT, getHeight() - pixel]
+            y = rand.nextInt(gameSettings.getyBound());
+            tempPoint = new Point(x, y);
+            //Make sure the generated coordinate not overlap with the snake or wall if so spawn the food and reset the counter
+            for (GameObject g : objectSet) {
+                if (g.getLocation().equals(tempPoint)) {
+                    overlap = true;
+                    break;
+                }
+            }
+        } while (overlap);
+
+        // Update the sets
+        Food newFood = new Food(tempPoint);
+        hittableSet.add(newFood);
+        objectSet.add(newFood);
+        updatableSet.add(newFood);
     }
 
-    //TODO collision detection 1.3
     private Hittable collision() {
+        // Check if the snake hit something
+        for (Hittable h : hittableSet) {
+            if (snakeHead.getLocation().equals(h.getLocation())) {return h;}
+        }
         return null;
     }
 }

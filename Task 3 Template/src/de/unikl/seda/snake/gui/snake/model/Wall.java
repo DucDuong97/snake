@@ -6,6 +6,8 @@ import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 
 import java.awt.*;
 
+import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
+
 public class Wall extends GameObject implements Hittable {
     public Wall(Point location) {
         super(location, Color.BLACK);
@@ -13,11 +15,18 @@ public class Wall extends GameObject implements Hittable {
 
     @Override
     public void hitted(SnakeGameState snakeGameState) {
-        //TODO
+        snakeGameState.setState(SnakeGameState.State.DEAD);
     }
+
 
     @Override
     public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
-        //TODO
+        graphics.setColor(color);
+        graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
+                location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
+                gameSettings.getSquareSize(),
+                gameSettings.getSquareSize(),
+                gameSettings.getSquareSize(),
+                gameSettings.getSquareSize());
     }
 }
