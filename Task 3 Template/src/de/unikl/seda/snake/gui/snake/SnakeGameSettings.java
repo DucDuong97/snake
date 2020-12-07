@@ -14,7 +14,7 @@ public class SnakeGameSettings {
     private int xBound;
     private int yBound;
 
-    enum GameLevel {
+    public enum GameLevel {
         NO_BORDER, BOX, VERTICAL_LINES;
     }
 
@@ -29,6 +29,7 @@ public class SnakeGameSettings {
         this.xBound = this.width / this.squareSize;
         this.yBound = this.height / this.squareSize;
     }
+
 
     public String getPlayerName() {
         return playerName;

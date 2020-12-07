@@ -3,6 +3,7 @@ package de.unikl.seda.snake.gui.snake;
 import de.unikl.seda.snake.gui.snake.model.*;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
+import static de.unikl.seda.snake.gui.snake.SnakeGameSettings.GameLevel.*;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -29,7 +30,7 @@ public class SnakeGameState {
         DEAD, ALIVE
     }
 
-    //TODO implement level 2
+
     public SnakeGameState(SnakeGameSettings gameSettings) {
         this.state = ALIVE;
         this.gameSettings = gameSettings;
@@ -43,14 +44,63 @@ public class SnakeGameState {
         this.objectSet.add(snakeHead);
         this.updatableSet.add(snakeHead);
 
-        // Just for testing purpose
-        Wall testWall = new Wall(new Point(10, 10));
-        this.objectSet.add(testWall);
-        this.hittableSet.add(testWall);
+        // implement level 2 and 3
+
+        System.out.println("value of x is:" + gameSettings.getxBound());
+        System.out.println("value of y is:" + gameSettings.getyBound());
+        System.out.println("value of level is:" + gameSettings.getGameLevel());
+
+        if(gameSettings.getGameLevel() == VERTICAL_LINES) {
+
+            for (int i = (gameSettings.getyBound() / 5); i < (4 * gameSettings.getyBound() / 5) + 1; i++) {
+                System.out.println("rightWall-level3 created");
+                Wall rightWall = new Wall(new Point((2 * gameSettings.getxBound() / 3), i));
+                this.objectSet.add(rightWall);
+                this.hittableSet.add(rightWall);
+            }
+
+            for (int i = (gameSettings.getyBound() / 5); i < (4 * gameSettings.getyBound() / 5) + 1; i++) {
+                System.out.println("leftWall-level3 created");
+                Wall leftWall = new Wall(new Point((gameSettings.getxBound() / 3), i));
+                this.objectSet.add(leftWall);
+                this.hittableSet.add(leftWall);
+            }
+        }else if (gameSettings.getGameLevel() == BOX){
+
+            for (int i = 0; i < gameSettings.getyBound(); i++) {
+                System.out.println("rightWall created");
+                Wall rightWall = new Wall(new Point(gameSettings.getxBound() - 1, i));
+                this.objectSet.add(rightWall);
+                this.hittableSet.add(rightWall);
+            }
+
+            for (int i = 0; i < gameSettings.getxBound(); i++) {
+                System.out.print("bottomWall created");
+                Wall bottomWall = new Wall(new Point(i, gameSettings.getyBound() - 1));
+                this.objectSet.add(bottomWall);
+                this.hittableSet.add(bottomWall);
+            }
+
+            for (int i = 0; i < gameSettings.getxBound(); i++) {
+                System.out.println("topWall created");
+                Wall topWall = new Wall(new Point(i, 0));
+                this.objectSet.add(topWall);
+                this.hittableSet.add(topWall);
+            }
+
+            for (int i = 0; i < gameSettings.getyBound(); i++) {
+                System.out.println("leftWall created");
+                Wall leftWall = new Wall(new Point(0, i));
+                this.objectSet.add(leftWall);
+                this.hittableSet.add(leftWall);
+            }
+        }
+
 
         generateFood();
         // set init head location
         // create wall and add to objects list
+
     }
 
     public SnakeGameSettings getGameSettings() {

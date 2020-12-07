@@ -26,7 +26,7 @@ public class Wall extends GameObject implements Hittable {
                 location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
                 gameSettings.getSquareSize(),
                 gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize());
+                2,
+                2);
     }
 }
