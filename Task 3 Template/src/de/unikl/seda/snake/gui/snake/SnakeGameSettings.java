@@ -1,6 +1,8 @@
 package de.unikl.seda.snake.gui.snake;
 
-import static de.unikl.seda.snake.gui.snake.SnakeGameSettings.GameLevel.*;
+import de.unikl.seda.snake.gui.snake.model.enums.GameLevel;
+
+import static de.unikl.seda.snake.gui.snake.model.enums.GameLevel.*;
 
 public class SnakeGameSettings {
 
@@ -13,10 +15,6 @@ public class SnakeGameSettings {
 
     private int xBound;
     private int yBound;
-
-    public enum GameLevel {
-        NO_BORDER, BOX, VERTICAL_LINES;
-    }
 
     public SnakeGameSettings() {
         playerName = "player";

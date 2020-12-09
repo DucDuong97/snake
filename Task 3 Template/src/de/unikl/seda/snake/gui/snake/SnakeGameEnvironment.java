@@ -1,16 +1,9 @@
 package de.unikl.seda.snake.gui.snake;
 
-import de.unikl.seda.snake.gui.snake.model.GameObject;
-import de.unikl.seda.snake.gui.snake.model.SnakeHead;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
-import de.unikl.seda.snake.gui.snake.model.Point;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
-
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.model.SnakeHead.Direction.*;
-import static de.unikl.seda.snake.gui.snake.SnakeGameState.State.DEAD;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 
@@ -81,15 +74,15 @@ public class SnakeGameEnvironment extends GameEnvironment {
         graphics.drawString("Score: " + snakeGameState.getScore(), getWidth() - 80, INFO_HEIGHT);
 
         // draw grid
-        int y = GAME_INFO_BANNER_HEIGHT;
-        while (y <= getHeight()) {
-            int x = 0;
-            while (x <= getWidth()) {
-                graphics.drawRect(x, y, snakeGameSettings.getSquareSize(), snakeGameSettings.getSquareSize());
-                x += snakeGameSettings.getSquareSize();
-            }
-            y += snakeGameSettings.getSquareSize();
-        }
+//        int y = GAME_INFO_BANNER_HEIGHT;
+//        while (y <= getHeight()) {
+//            int x = 0;
+//            while (x <= getWidth()) {
+//                graphics.drawRect(x, y, snakeGameSettings.getSquareSize(), snakeGameSettings.getSquareSize());
+//                x += snakeGameSettings.getSquareSize();
+//            }
+//            y += snakeGameSettings.getSquareSize();
+//        }
 
         // draw Objects
         this.snakeGameState.getObjectSet().forEach(gameObject -> gameObject.draw(graphics, snakeGameSettings));

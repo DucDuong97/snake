@@ -9,31 +9,26 @@ import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
 
-public class Food extends GameObject implements Hittable, Updatable {
+public class Food extends Updatable implements Hittable {
 
-    int span = 20;
+    private int span = 10;
 
     public Food(Point location) {
-        super(location, Color.YELLOW);
+        super(location, Color.YELLOW, FOOD);
     }
 
     @Override
-    public void hitted(SnakeGameState snakeGameState) {
-        snakeGameState.getHittableSet().remove(this);
-        snakeGameState.getUpdatableSet().remove(this);
-        snakeGameState.getObjectSet().remove(this);
-        snakeGameState.generateFood();
+    public void whenHitting(SnakeGameState snakeGameState) {
+        snakeGameState.removeObject(this);
+        snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         snakeGameState.increaseScore();
     }
 
     @Override
     public void update(SnakeGameState snakeGameState) {
         if (span == 0) {
-            snakeGameState.getHittableSet().remove(this);
-            snakeGameState.getUpdatableSet().remove(this);
-            snakeGameState.getObjectSet().remove(this);
-            snakeGameState.generateFood();
-            span = 20;
+            snakeGameState.removeObject(this);
+            snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         } else { span--; }
     }
 

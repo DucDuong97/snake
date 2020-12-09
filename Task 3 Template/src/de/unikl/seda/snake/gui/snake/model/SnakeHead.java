@@ -9,7 +9,7 @@ import java.awt.*;
 import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
 import static de.unikl.seda.snake.gui.snake.model.SnakeHead.Direction.*;
 
-public class SnakeHead extends GameObject implements Updatable {
+public class SnakeHead extends Updatable {
 
     private Direction currentDirection = IDLE;
 
@@ -22,7 +22,7 @@ public class SnakeHead extends GameObject implements Updatable {
     }
 
     public SnakeHead(Point location) {
-        super(location, Color.RED);
+        super(location, Color.RED, SNAKE_HEAD);
     }
 
     @Override

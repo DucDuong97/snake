@@ -14,7 +14,7 @@ public class Wall extends GameObject implements Hittable {
     }
 
     @Override
-    public void hitted(SnakeGameState snakeGameState) {
+    public void whenHitting(SnakeGameState snakeGameState) {
         snakeGameState.setState(SnakeGameState.State.DEAD);
     }
 
@@ -22,11 +22,9 @@ public class Wall extends GameObject implements Hittable {
     @Override
     public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
         graphics.setColor(color);
-        graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
+        graphics.fillRect(location.getX() * gameSettings.getSquareSize(),
                 location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
                 gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                2,
-                2);
+                gameSettings.getSquareSize());
     }
 }
