@@ -1,20 +1,21 @@
-package de.unikl.seda.snake.gui.snake.model;
+package de.unikl.seda.snake.gui.snake.model.interfaces;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
+import de.unikl.seda.snake.gui.snake.model.Point;
 
 import java.awt.*;
 
 public abstract class GameObject {
 
-    protected Point location;
+    protected de.unikl.seda.snake.gui.snake.model.Point location;
     protected Color color;
 
-    public GameObject(Point location, Color color) {
+    public GameObject(de.unikl.seda.snake.gui.snake.model.Point location, Color color) {
         this.location = location;
         this.color = color;
     }
 
-    public Point getLocation() {
+    public de.unikl.seda.snake.gui.snake.model.Point getLocation() {
         return location;
     }
 

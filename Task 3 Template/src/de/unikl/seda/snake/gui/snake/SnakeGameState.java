@@ -1,6 +1,7 @@
 package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.snake.model.*;
+import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
 

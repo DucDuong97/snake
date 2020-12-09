@@ -2,6 +2,7 @@ package de.unikl.seda.snake.gui.snake.model;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 
 import java.awt.*;

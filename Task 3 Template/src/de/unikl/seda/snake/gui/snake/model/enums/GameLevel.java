@@ -10,7 +10,7 @@ public enum GameLevel {
     NO_BORDER {
         @Override
         public List<Wall> buildWall(int xBound, int yBound) {
-            return null;
+            return new ArrayList<>();
         }
     }, VERTICAL_LINES {
         @Override
