@@ -25,6 +25,9 @@ public class SnakeGameState {
     // Snake
     private SnakeHead snakeHead;
 
+    private ArrayList<SnakeBody> snakeBody;
+    private Point tailLocation;
+
     public enum  State {
         DEAD, ALIVE
     }
@@ -43,8 +46,13 @@ public class SnakeGameState {
         gameSettings.getGameLevel().buildWall(gameSettings.getxBound(), gameSettings.getyBound())
             .forEach(this::addObject);
 
-        this.snakeHead = new SnakeHead(generateRandomPoint());
+        this.snakeHead = new SnakeHead(new Point(2,1));
+        SnakeBody firstSnakeBody = new SnakeBody(new Point(1,1));
         addObject(snakeHead);
+        snakeBody = new ArrayList<>();
+        this.snakeBody.add(firstSnakeBody);
+        this.tailLocation = firstSnakeBody.getLocation();
+        addObject(firstSnakeBody);
         addObject(new Food(generateRandomPoint()));
     }
 
@@ -85,6 +93,9 @@ public class SnakeGameState {
         this.updatableSet.forEach(updatable -> updatable.update(this));
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
         Hittable hittable = hittableMap.get(snakeHead.getLocation());
+        if (!(hittable instanceof Food) && snakeHead.getCurrentDirection() != SnakeHead.Direction.IDLE) {
+            removeObject(snakeBody.remove(0));
+        }
         if (hittable != null) { hittable.whenHitting(this); }
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
         updating = false;
@@ -114,7 +125,9 @@ public class SnakeGameState {
             }
         } while (overlap);
         // Update the sets
+        System.out.println("Generate point at " + tempPoint.getX() + " " + tempPoint.getY());
         return tempPoint;
+
     }
 
     public void addObject(GameObject object) {
@@ -122,15 +135,18 @@ public class SnakeGameState {
             this.updateQueue.add(()-> {
                 this.objectSet.add(object);
                 if (object instanceof Updatable) {
+                    //System.out.println("Added Updatable");
                     updatableSet.add((Updatable)object);
                 }
                 if (object instanceof Hittable) {
+                    //System.out.println("Added Hittable");
                     hittableMap.put(object.getLocation(), (Hittable)object);
                 }
             });
         } else {
             this.objectSet.add(object);
             if (object instanceof Updatable) {
+
                 updatableSet.add((Updatable)object);
             }
             if (object instanceof Hittable) {
@@ -159,5 +175,9 @@ public class SnakeGameState {
                 hittableMap.remove(object.getLocation());
             }
         }
+    }
+
+    public ArrayList<SnakeBody> getSnakeBody() {
+        return snakeBody;
     }
 }

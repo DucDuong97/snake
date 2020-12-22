@@ -41,7 +41,7 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
     @Override
     protected void handleKeypressLeft() {
-        if (snakeGameState.getSnakeHead().getCurrentDirection() != RIGHT) {
+        if (snakeGameState.getSnakeHead().getCurrentDirection() != RIGHT || snakeGameState.getSnakeHead().getCurrentDirection() != IDLE) {
             snakeGameState.getSnakeHead().setCurrentDirection(LEFT);
             uiUpdateThread.interrupt();
         }
