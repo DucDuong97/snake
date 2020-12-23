@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
+
+import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
 
 /** The empty game environment which draws a box around the graphical environment and reacts to keypresses.
  *  The class @{@link de.unikl.seda.snake.gui.snake.SnakeGameEnvironment} extends from this class and adds logic and additional graphic.
@@ -12,7 +15,8 @@ import javax.swing.*;
  * */
 public abstract class GameEnvironment extends JPanel {
     protected UiUpdateThread uiUpdateThread;
-    private final int width, height, gameSpeed;
+    GuiContainer guiContainer;
+    private int width, height, gameSpeed;
 
     public GameEnvironment(int width, int height, int gameSpeed) {
         this.width = width;
@@ -30,6 +34,7 @@ public abstract class GameEnvironment extends JPanel {
         getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "key-left");
         getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "key-right");
         getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "key-return");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "key-escape");
 
         // Map action names to method calls
         getActionMap().put("key-up", new AbstractAction() {
@@ -62,6 +67,12 @@ public abstract class GameEnvironment extends JPanel {
                 handleReturnPress();
             }
         });
+        getActionMap().put("key-escape", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleEscapePress();
+            }
+        });
     }
 
     protected abstract void handleKeypressUp();
@@ -69,10 +80,18 @@ public abstract class GameEnvironment extends JPanel {
     protected abstract void handleKeypressLeft();
     protected abstract void handleKeypressRight();
     protected abstract void handleReturnPress();
+    protected abstract void handleEscapePress();
 
     @Override
     public int getWidth() {
         return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+        if (guiContainer != null) {
+            guiContainer.setSize(this.width, this.height);
+        }
     }
 
     @Override
@@ -80,8 +99,24 @@ public abstract class GameEnvironment extends JPanel {
         return height;
     }
 
+    public void setHeight(int height) {
+        this.height = height + GAME_INFO_BANNER_HEIGHT;
+        if (guiContainer != null) {
+            guiContainer.setSize(this.width, this.height);
+        }
+    }
+
     public int getGameSpeed() {
-        return gameSpeed;}
+        return gameSpeed;
+    }
+
+    public void setGameSpeed(int gameSpeed) {
+        this.gameSpeed = gameSpeed;
+    }
+
+    public void setGuiContainer(GuiContainer guiContainer) {
+        this.guiContainer = guiContainer;
+    }
 
     protected abstract void drawSnakeEnvironment(Graphics2D graphics);
 

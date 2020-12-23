@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.snake.model.enums;
+package de.unikl.seda.snake.gui.snake.enums;
 
 import de.unikl.seda.snake.gui.snake.model.Point;
 import de.unikl.seda.snake.gui.snake.model.Wall;
@@ -12,7 +12,14 @@ public enum GameLevel {
         public List<Wall> buildWall(int xBound, int yBound) {
             return new ArrayList<>();
         }
-    }, VERTICAL_LINES {
+
+        @Override
+        public int getConst() {
+            return 0;
+        }
+    },
+
+    VERTICAL_LINES {
         @Override
         public List<Wall> buildWall(int xBound, int yBound) {
             List<Wall> walls = new ArrayList<>();
@@ -26,7 +33,14 @@ public enum GameLevel {
             }
             return walls;
         }
-    }, BOX {
+
+        @Override
+        public int getConst() {
+            return 1;
+        }
+    },
+
+    BOX {
         @Override
         public List<Wall> buildWall(int xBound, int yBound) {
             List<Wall> walls = new ArrayList<>();
@@ -48,6 +62,13 @@ public enum GameLevel {
             }
             return walls;
         }
+
+        @Override
+        public int getConst() {
+            return 2;
+        }
     };
+
     public abstract List<Wall> buildWall(int xBound, int yBound);
+    public abstract int getConst();
 }

@@ -2,24 +2,17 @@ package de.unikl.seda.snake.gui.snake.model;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.snake.model.enums.Direction;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
 
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
-import static de.unikl.seda.snake.gui.snake.model.SnakeHead.Direction.*;
+import static de.unikl.seda.snake.gui.snake.model.enums.Direction.*;
 
 public class SnakeHead extends Updatable {
 
     private Direction currentDirection = IDLE;
-
-    public enum Direction {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN,
-        IDLE
-    }
 
     public SnakeHead(Point location) {
         super(location, Color.RED, SNAKE_HEAD);

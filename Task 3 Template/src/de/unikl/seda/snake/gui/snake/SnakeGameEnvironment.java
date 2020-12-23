@@ -1,66 +1,74 @@
 package de.unikl.seda.snake.gui.snake;
 
+import de.unikl.seda.snake.gui.snake.enums.MainState;
+import de.unikl.seda.snake.gui.snake.menu.GameMenu;
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
+
 import java.awt.*;
 
-import static de.unikl.seda.snake.gui.snake.model.SnakeHead.Direction.*;
+import static de.unikl.seda.snake.gui.snake.enums.MainState.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 
-    // For UI
     public static final int GAME_INFO_BANNER_HEIGHT = 25;
     private static final int INFO_HEIGHT = 18;
 
     private SnakeGameState snakeGameState;
+    private GameMenu gameMenu;
     private SnakeGameSettings snakeGameSettings;
 
-    // Coordination
+    private MainState mainState;
 
-    public SnakeGameEnvironment(SnakeGameSettings snakeGameSettings) {
+    public SnakeGameEnvironment() {
         // sets the size of the snake environment
-        super(snakeGameSettings.getWidth(), snakeGameSettings.getHeight() + GAME_INFO_BANNER_HEIGHT, snakeGameSettings.getGameSpeed());
-        this.snakeGameSettings = snakeGameSettings;
+        super(0, 0, 0);
+        this.snakeGameSettings = new SnakeGameSettings(this);
         this.snakeGameState = new SnakeGameState(snakeGameSettings);
+        this.mainState = IN_MENU;
+
+        SnakeGameSettingsAdjuster snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
+        this.gameMenu = GameMenu.createMainMenu(snakeGameSettingsAdjuster);
     }
 
     @Override
     protected void handleKeypressUp() {
-        if (snakeGameState.getSnakeHead().getCurrentDirection() != DOWN) {
-            snakeGameState.getSnakeHead().setCurrentDirection(UP);
+        if (mainState.handleKeypressUp(this)) {
             uiUpdateThread.interrupt();
         }
     }
 
     @Override
     protected void handleKeypressDown() {
-        if (snakeGameState.getSnakeHead().getCurrentDirection() != UP) {
-            snakeGameState.getSnakeHead().setCurrentDirection(DOWN);
+        if (mainState.handleKeypressDown(this)) {
             uiUpdateThread.interrupt();
         }
     }
 
     @Override
     protected void handleKeypressLeft() {
-        if (snakeGameState.getSnakeHead().getCurrentDirection() != RIGHT) {
-            snakeGameState.getSnakeHead().setCurrentDirection(LEFT);
+        if (mainState.handleKeypressLeft(this)) {
             uiUpdateThread.interrupt();
         }
     }
 
     @Override
     protected void handleKeypressRight() {
-        if (snakeGameState.getSnakeHead().getCurrentDirection() != LEFT) {
-            snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
+        if (mainState.handleKeypressRight(this)) {
             uiUpdateThread.interrupt();
         }
     }
 
     @Override
     protected void handleReturnPress() {
-        if (snakeGameState.getSnakeHead().getColor() == Color.RED) {
-            snakeGameState.getSnakeHead().setColor(Color.BLUE);
-        } else {
-            snakeGameState.getSnakeHead().setColor(Color.RED);
+        if (mainState.handleReturnPress(this)) {
+            uiUpdateThread.interrupt();
+        }
+    }
+
+    @Override
+    protected void handleEscapePress() {
+        if (mainState.handleEscapePress(this)) {
+            uiUpdateThread.interrupt();
         }
     }
 
@@ -85,10 +93,34 @@ public class SnakeGameEnvironment extends GameEnvironment {
 //        }
 
         // draw Objects
-        this.snakeGameState.getObjectSet().forEach(gameObject -> gameObject.draw(graphics, snakeGameSettings));
+        mainState.draw(this, graphics);
+    }
+
+    public void makeThreadSleep() throws InterruptedException {
+        mainState.makeThreadSleep(this);
     }
 
     public void updateState() {
-        snakeGameState.update();
+        mainState.update(this);
+    }
+
+    public SnakeGameSettings getSnakeGameSettings() {
+        return snakeGameSettings;
+    }
+
+    public SnakeGameState getSnakeGameState() {
+        return snakeGameState;
+    }
+
+    public GameMenu getGameMenu() {
+        return gameMenu;
+    }
+
+    public void setGameMenu(GameMenu gameMenu) {
+        this.gameMenu = gameMenu;
+    }
+
+    public void setMainState(MainState mainState) {
+        this.mainState = mainState;
     }
 }

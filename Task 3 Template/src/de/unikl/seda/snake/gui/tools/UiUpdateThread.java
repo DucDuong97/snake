@@ -17,12 +17,13 @@ public class UiUpdateThread extends Thread {
 
     @Override
     public void run() {
+        SnakeGameEnvironment snakeGameEnvironment = (SnakeGameEnvironment) drawingEnv;
         while(drawingEnv.isVisible()) {
-            ((SnakeGameEnvironment) drawingEnv).updateState();
+            snakeGameEnvironment.updateState();
             drawingEnv.repaint();
 
             try {
-                Thread.sleep(drawingEnv.getGameSpeed());
+                snakeGameEnvironment.makeThreadSleep();
             } catch (InterruptedException ignored) {}
         }
     }

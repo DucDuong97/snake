@@ -20,7 +20,7 @@ public class GuiContainer extends JDialog {
         add(drawingEnvironment);
 
         // Configure the dialog (size, title)
-        setSize(drawingEnvironment.getWidth() + windowWidthOffset, drawingEnvironment.getHeight() + windowHeightOffset); // the offsets compensate for the operating-system dependent border size of the dialog
+        setSize(drawingEnvironment.getWidth(), drawingEnvironment.getHeight()); // the offsets compensate for the operating-system dependent border size of the dialog
         setTitle(dialogTitle);
         setLocationRelativeTo(null);
         setResizable(false); // dialog window is not resizable
@@ -52,10 +52,16 @@ public class GuiContainer extends JDialog {
         return frame;
     }
 
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width+ windowWidthOffset, height + windowHeightOffset);
+    }
+
     public static void show(String dialogTitle, SnakeGameEnvironment drawingEnvironment) {
         try {
             EventQueue.invokeAndWait(() -> {
                 GuiContainer guiContainer = new GuiContainer(dialogTitle, drawingEnvironment);
+                drawingEnvironment.setGuiContainer(guiContainer);
                 System.out.println("Game session started.");
 
                 guiContainer.setVisible(true);

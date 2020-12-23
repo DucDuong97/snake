@@ -1,22 +1,26 @@
 package de.unikl.seda.snake.gui.snake;
 
-import de.unikl.seda.snake.gui.snake.model.enums.GameLevel;
+import de.unikl.seda.snake.gui.snake.enums.GameLevel;
+import de.unikl.seda.snake.gui.tools.GameEnvironment;
 
-import static de.unikl.seda.snake.gui.snake.model.enums.GameLevel.*;
+import static de.unikl.seda.snake.gui.snake.enums.GameLevel.*;
 
 public class SnakeGameSettings {
 
     private String playerName;
     private GameLevel gameLevel;
     private int gameSpeed;
+
     private int squareSize;
     private int height;
     private int width;
-
     private int xBound;
     private int yBound;
 
-    public SnakeGameSettings() {
+    private GameEnvironment gameEnvironment;
+
+    public SnakeGameSettings(GameEnvironment gameEnvironment) {
+        this.gameEnvironment = gameEnvironment;
         playerName = "player";
         gameLevel = NO_BORDER;
         gameSpeed = 200;
@@ -51,6 +55,7 @@ public class SnakeGameSettings {
 
     public void setGameSpeed(int gameSpeed) {
         this.gameSpeed = gameSpeed;
+        gameEnvironment.setGameSpeed(this.gameSpeed);
     }
 
     public int getSquareSize() {
@@ -70,8 +75,9 @@ public class SnakeGameSettings {
     }
 
     public void setHeight(int height) {
-        this.yBound = this.height / this.squareSize;
+        this.yBound = height / this.squareSize;
         this.height = this.squareSize * this.yBound;
+        gameEnvironment.setHeight(this.height);
     }
 
     public int getWidth() {
@@ -79,8 +85,9 @@ public class SnakeGameSettings {
     }
 
     public void setWidth(int width) {
-        this.xBound = this.width / this.squareSize;
+        this.xBound = width / this.squareSize;
         this.width = this.squareSize * this.xBound;
+        gameEnvironment.setWidth(this.width);
     }
 
     public int getxBound() {

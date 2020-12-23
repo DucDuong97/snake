@@ -27,9 +27,13 @@ public class Food extends Updatable implements Hittable {
     @Override
     public void update(SnakeGameState snakeGameState) {
         if (span == 0) {
+            System.out.println("delete food");
             snakeGameState.removeObject(this);
             snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
-        } else { span--; }
+        } else {
+            span--;
+            System.out.println("decrease");
+        }
     }
 
     @Override
