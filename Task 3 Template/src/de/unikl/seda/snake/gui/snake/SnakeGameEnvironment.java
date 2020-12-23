@@ -3,10 +3,10 @@ package de.unikl.seda.snake.gui.snake;
 import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.snake.menu.GameMenu;
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
-
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.MainState.*;
+import static de.unikl.seda.snake.gui.snake.model.enums.Direction.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 

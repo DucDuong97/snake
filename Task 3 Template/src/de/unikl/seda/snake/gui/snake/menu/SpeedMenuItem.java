@@ -24,7 +24,7 @@ public class SpeedMenuItem extends Adjustable {
 
     @Override
     public void decrease() {
-        snakeGameSettingsAdjuster.setSpeedLevel(++level);
+        snakeGameSettingsAdjuster.setSpeedLevel(--level);
     }
 
     @Override

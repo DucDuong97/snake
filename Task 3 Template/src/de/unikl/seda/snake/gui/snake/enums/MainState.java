@@ -87,12 +87,14 @@ public enum MainState {
         @Override
         public boolean handleReturnPress(SnakeGameEnvironment snakeGameEnvironment) {
             //TODO implement pause
-            return true;
+            return false;
         }
 
         @Override
         public boolean handleEscapePress(SnakeGameEnvironment snakeGameEnvironment) {
             //TODO implement quit game
+//            setMainState(IN_MENU);
+//            setGameMenu(new GameMenu(null, [resume, quit], "pauseGame"));
             return true;
         }
 

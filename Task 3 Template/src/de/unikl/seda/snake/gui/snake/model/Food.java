@@ -2,6 +2,7 @@ package de.unikl.seda.snake.gui.snake.model;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
 
@@ -11,7 +12,7 @@ import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNE
 
 public class Food extends Updatable implements Hittable {
 
-    private int span = 10;
+    private int span = 50;
 
     public Food(Point location) {
         super(location, Color.YELLOW, FOOD);
@@ -27,7 +28,6 @@ public class Food extends Updatable implements Hittable {
     @Override
     public void update(SnakeGameState snakeGameState) {
         if (span == 0) {
-            System.out.println("delete food");
             snakeGameState.removeObject(this);
             snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         } else {

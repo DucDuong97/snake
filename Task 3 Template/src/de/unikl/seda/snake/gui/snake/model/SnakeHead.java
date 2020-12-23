@@ -12,6 +12,7 @@ import static de.unikl.seda.snake.gui.snake.model.enums.Direction.*;
 
 public class SnakeHead extends Updatable {
 
+    // The snake is not moving, facing right
     private Direction currentDirection = IDLE;
 
     public SnakeHead(Point location) {
@@ -22,6 +23,8 @@ public class SnakeHead extends Updatable {
     public void update(SnakeGameState snakeGameState) {
         int currentX = snakeGameState.getSnakeHead().getLocation().getX();
         int currentY = snakeGameState.getSnakeHead().getLocation().getY();
+        int oldX = currentX;
+        int oldY = currentY;
         switch(currentDirection) {
             case UP:
                 currentY = currentY - 1;
@@ -53,6 +56,11 @@ public class SnakeHead extends Updatable {
                 break;
             case IDLE:
                 break;
+        }
+        if (currentDirection != IDLE) {
+            SnakeBody bodyToAdd = new SnakeBody(new Point(oldX, oldY));
+            snakeGameState.getSnakeBody().add(bodyToAdd);
+            snakeGameState.addObject(bodyToAdd);
         }
     }
 

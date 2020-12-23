@@ -10,6 +10,7 @@ public abstract class Updatable extends GameObject implements Comparable {
     private static final int BASE = 0;
     protected static final int SNAKE_HEAD = BASE + 1;
     protected static final int FOOD = SNAKE_HEAD + 1;
+    protected static final int SNAKE_BODY = FOOD + 1;
 
     private final int priority;
 

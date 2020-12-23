@@ -21,7 +21,6 @@ public class SnakeGameSettingsAdjuster {
     private final static int heightNorm = 300;
     private final static int widthNorm = 400;
     private final static int pixelNorm = 20;
-
     private final static Map<Integer, GameLevel> gameLevelMap;
 
     static {
