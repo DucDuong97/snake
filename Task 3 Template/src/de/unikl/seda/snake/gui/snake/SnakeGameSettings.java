@@ -17,12 +17,12 @@ public class SnakeGameSettings {
     private int xBound;
     private int yBound;
 
-    private GameEnvironment gameEnvironment;
+    private SnakeGameEnvironment snakeGameEnvironment;
 
-    public SnakeGameSettings(GameEnvironment gameEnvironment) {
-        this.gameEnvironment = gameEnvironment;
+    public SnakeGameSettings(SnakeGameEnvironment snakeGameEnvironment) {
+        this.snakeGameEnvironment = snakeGameEnvironment;
         playerName = "player";
-        gameLevel = NO_BORDER;
+        setGameLevel(NO_BORDER);
         gameSpeed = 200;
         squareSize = 50;
         height = 600;
@@ -55,7 +55,7 @@ public class SnakeGameSettings {
 
     public void setGameSpeed(int gameSpeed) {
         this.gameSpeed = gameSpeed;
-        gameEnvironment.setGameSpeed(this.gameSpeed);
+        snakeGameEnvironment.setGameSpeed(this.gameSpeed);
     }
 
     public int getSquareSize() {
@@ -77,7 +77,7 @@ public class SnakeGameSettings {
     public void setHeight(int height) {
         this.yBound = height / this.squareSize;
         this.height = this.squareSize * this.yBound;
-        gameEnvironment.setHeight(this.height);
+        snakeGameEnvironment.setHeight(this.height);
     }
 
     public int getWidth() {
@@ -87,7 +87,7 @@ public class SnakeGameSettings {
     public void setWidth(int width) {
         this.xBound = width / this.squareSize;
         this.width = this.squareSize * this.xBound;
-        gameEnvironment.setWidth(this.width);
+        snakeGameEnvironment.setWidth(this.width);
     }
 
     public int getxBound() {
@@ -97,4 +97,9 @@ public class SnakeGameSettings {
     public int getyBound() {
         return yBound;
     }
+
+    public SnakeGameEnvironment getSnakeGameEnvironment() {
+        return snakeGameEnvironment;
+    }
+
 }

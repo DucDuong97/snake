@@ -32,24 +32,24 @@ public class SnakeGameSettingsAdjuster {
 
     private SnakeGameSettings snakeGameSettings;
 
-    private int gameLevel;
+    private GameLevel gameLevel;
     private int speedLevel;
     private int screenSize;
 
     public SnakeGameSettingsAdjuster(SnakeGameSettings snakeGameSettings) {
         this.snakeGameSettings = snakeGameSettings;
-        setGameLevel(1);
+        setGameLevel(snakeGameSettings.getGameLevel());
         setSpeedLevel(1);
         setScreenSize(1);
     }
 
-    public int getGameLevel() {
+    public GameLevel getGameLevel() {
         return gameLevel;
     }
 
-    public void setGameLevel(int gameLevel) {
+    public void setGameLevel(GameLevel gameLevel) {
         this.gameLevel = gameLevel;
-        snakeGameSettings.setGameLevel(gameLevelMap.get(gameLevel));
+        snakeGameSettings.setGameLevel(gameLevel);
     }
 
     public int getSpeedLevel() {

@@ -18,7 +18,6 @@ public class SnakeBody extends GameObject implements Hittable {
 
     @Override
     public void whenHitting(SnakeGameState snakeGameState) {
-        System.out.println("You hit the body");
         snakeGameState.setState(State.DEAD);
     }
 

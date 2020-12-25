@@ -2,8 +2,12 @@ package de.unikl.seda.snake.gui.snake.enums;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.snake.menu.BackToMainMenuItem;
+import de.unikl.seda.snake.gui.snake.menu.GameMenu;
+import de.unikl.seda.snake.gui.snake.menu.ResumeMenuItem;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public enum MainState {
     IN_MENU {
@@ -86,15 +90,14 @@ public enum MainState {
 
         @Override
         public boolean handleReturnPress(SnakeGameEnvironment snakeGameEnvironment) {
-            //TODO implement pause
             return false;
         }
 
         @Override
         public boolean handleEscapePress(SnakeGameEnvironment snakeGameEnvironment) {
-            //TODO implement quit game
-//            setMainState(IN_MENU);
-//            setGameMenu(new GameMenu(null, [resume, quit], "pauseGame"));
+            snakeGameEnvironment.setGameMenu(new GameMenu(null
+                    , Arrays.asList(new ResumeMenuItem(), new BackToMainMenuItem()), "pause"));
+            snakeGameEnvironment.setMainState(IN_MENU);
             return true;
         }
 
@@ -109,6 +112,8 @@ public enum MainState {
             Thread.sleep(snakeGameEnvironment.getGameSpeed());
         }
     };
+
+
 
     public abstract void update(SnakeGameEnvironment snakeGameEnvironment);
 

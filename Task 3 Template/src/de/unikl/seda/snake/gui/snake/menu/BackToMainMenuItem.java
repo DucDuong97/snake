@@ -3,14 +3,14 @@ package de.unikl.seda.snake.gui.snake.menu;
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.snake.menu.interfaces.Selectable;
 
-public class QuitMenuItem implements Selectable {
+public class BackToMainMenuItem implements Selectable {
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        System.exit(0);
+        snakeGameEnvironment.renewGameState();
     }
 
     @Override
     public String getName() {
-        return "Quit";
+        return "back to main menu";
     }
 }

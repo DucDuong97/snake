@@ -32,7 +32,6 @@ public class Food extends Updatable implements Hittable {
             snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         } else {
             span--;
-            System.out.println("decrease");
         }
     }
 

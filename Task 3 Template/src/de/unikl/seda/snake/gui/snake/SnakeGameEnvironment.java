@@ -123,4 +123,10 @@ public class SnakeGameEnvironment extends GameEnvironment {
     public void setMainState(MainState mainState) {
         this.mainState = mainState;
     }
+
+    public void renewGameState() {
+        this.snakeGameState = new SnakeGameState(snakeGameSettings);
+        SnakeGameSettingsAdjuster snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
+        this.gameMenu = GameMenu.createMainMenu(snakeGameSettingsAdjuster);
+    }
 }

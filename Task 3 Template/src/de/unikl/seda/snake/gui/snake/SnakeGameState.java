@@ -1,6 +1,9 @@
 package de.unikl.seda.snake.gui.snake;
 
+import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.snake.enums.State;
+import de.unikl.seda.snake.gui.snake.menu.GameMenu;
+import de.unikl.seda.snake.gui.snake.menu.GameOverMenuItem;
 import de.unikl.seda.snake.gui.snake.model.*;
 import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
@@ -28,8 +31,6 @@ public class SnakeGameState {
     private SnakeHead snakeHead;
 
     private ArrayList<SnakeBody> snakeBody;
-    private Point tailLocation;
-
 
     public SnakeGameState(SnakeGameSettings gameSettings) {
         this.state = ALIVE;
@@ -40,7 +41,6 @@ public class SnakeGameState {
         this.updatableSet = new TreeSet<>();
         this.hittableMap = new HashMap<>();
         this.updateQueue = new LinkedList<>();
-
         gameSettings.getGameLevel().buildWall(gameSettings.getxBound(), gameSettings.getyBound())
             .forEach(this::addObject);
 
@@ -49,7 +49,6 @@ public class SnakeGameState {
         addObject(snakeHead);
         snakeBody = new ArrayList<>();
         this.snakeBody.add(firstSnakeBody);
-        this.tailLocation = firstSnakeBody.getLocation();
         addObject(firstSnakeBody);
         addObject(new Food(generateRandomPoint()));
     }
@@ -64,6 +63,10 @@ public class SnakeGameState {
 
     public void setState(State state) {
         this.state = state;
+        if (state == DEAD) {
+            this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
+            this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
+        }
     }
 
     public SnakeHead getSnakeHead() {

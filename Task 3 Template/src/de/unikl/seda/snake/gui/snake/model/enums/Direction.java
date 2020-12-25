@@ -113,8 +113,8 @@ public enum Direction {
         }
 
         @Override
+        // The snake facing right in the idle state
         public boolean goLeft(SnakeGameState snakeGameState) {
-            snakeGameState.getSnakeHead().setCurrentDirection(LEFT);
             return true;
         }
 
