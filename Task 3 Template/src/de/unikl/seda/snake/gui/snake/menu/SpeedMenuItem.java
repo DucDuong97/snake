@@ -13,18 +13,28 @@ public class SpeedMenuItem extends Adjustable {
     }
 
     @Override
-    public int getValue() {
+    public double getValue() {
         return level;
     }
 
     @Override
     public void increase() {
-        snakeGameSettingsAdjuster.setSpeedLevel(++level);
+        if (level >= 5) {
+            level = 5;
+            snakeGameSettingsAdjuster.setSpeedLevel(level);
+        } else {
+            snakeGameSettingsAdjuster.setSpeedLevel(++level);
+        }
     }
 
     @Override
     public void decrease() {
-        snakeGameSettingsAdjuster.setSpeedLevel(--level);
+        if (level <= 1) {
+            level = 1;
+            snakeGameSettingsAdjuster.setSpeedLevel(level);
+        } else {
+            snakeGameSettingsAdjuster.setSpeedLevel(--level);
+        }
     }
 
     @Override

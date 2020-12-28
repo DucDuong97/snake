@@ -9,7 +9,7 @@ public abstract class Adjustable implements MenuItem {
         this.snakeGameSettingsAdjuster = snakeGameSettingsAdjuster;
     }
 
-    public abstract int getValue();
+    public abstract double getValue();
     public abstract void increase();
     public abstract void decrease();
 }

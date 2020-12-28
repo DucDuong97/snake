@@ -11,7 +11,7 @@ public class ResolutionMenuItem extends Adjustable {
     }
 
     @Override
-    public int getValue() {
+    public double getValue() {
         return level;
     }
 

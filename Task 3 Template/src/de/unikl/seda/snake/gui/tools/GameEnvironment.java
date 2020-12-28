@@ -16,7 +16,9 @@ import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNE
 public abstract class GameEnvironment extends JPanel {
     protected UiUpdateThread uiUpdateThread;
     GuiContainer guiContainer;
-    private int width, height, gameSpeed;
+    private int width;
+    private int height;
+    private int gameSpeed;
 
     public GameEnvironment(int width, int height, int gameSpeed) {
         this.width = width;

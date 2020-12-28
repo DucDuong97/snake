@@ -1,7 +1,6 @@
 package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
-import de.unikl.seda.snake.gui.tools.GameEnvironment;
 
 import static de.unikl.seda.snake.gui.snake.enums.GameLevel.*;
 

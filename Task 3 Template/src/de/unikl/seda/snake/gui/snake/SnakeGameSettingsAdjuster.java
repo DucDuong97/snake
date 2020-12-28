@@ -1,7 +1,6 @@
 package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
-import de.unikl.seda.snake.gui.tools.GuiContainer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ public class SnakeGameSettingsAdjuster {
     public final static int REGULAR = 2;
     public final static int BIG = 3;
 
-    private final static int speedNorm = 150;
+    private final static int speedNorm = 200;
     private final static int heightNorm = 300;
     private final static int widthNorm = 400;
     private final static int pixelNorm = 20;
@@ -30,6 +29,10 @@ public class SnakeGameSettingsAdjuster {
         }
     }
 
+    public SnakeGameSettings getSnakeGameSettings() {
+        return snakeGameSettings;
+    }
+
     private SnakeGameSettings snakeGameSettings;
 
     private GameLevel gameLevel;
@@ -39,12 +42,21 @@ public class SnakeGameSettingsAdjuster {
     public SnakeGameSettingsAdjuster(SnakeGameSettings snakeGameSettings) {
         this.snakeGameSettings = snakeGameSettings;
         setGameLevel(snakeGameSettings.getGameLevel());
-        setSpeedLevel(1);
-        setScreenSize(1);
+        setSpeedLevel(snakeGameSettings.getGameSpeed() / speedNorm);
+        setScreenSize(snakeGameSettings.getHeight() / heightNorm);
     }
 
     public GameLevel getGameLevel() {
         return gameLevel;
+    }
+
+    public int getGameLevelLevel() {
+        if (gameLevel == GameLevel.NO_BORDER) {
+            return 0;
+        } else if  (gameLevel == GameLevel.VERTICAL_LINES) {
+            return 1;
+        }
+        return 2;
     }
 
     public void setGameLevel(GameLevel gameLevel) {
