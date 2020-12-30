@@ -1,6 +1,6 @@
 package de.unikl.seda.snake.gui.snake.menu.interfaces;
 
-import de.unikl.seda.snake.gui.snake.SnakeGameSettingsAdjuster;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 
 public abstract class Adjustable implements MenuItem {
     protected SnakeGameSettingsAdjuster snakeGameSettingsAdjuster;

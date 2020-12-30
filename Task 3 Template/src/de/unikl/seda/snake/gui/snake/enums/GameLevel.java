@@ -1,7 +1,7 @@
 package de.unikl.seda.snake.gui.snake.enums;
 
-import de.unikl.seda.snake.gui.snake.model.Point;
-import de.unikl.seda.snake.gui.snake.model.Wall;
+import de.unikl.seda.snake.gui.snake.gameobject.Point;
+import de.unikl.seda.snake.gui.snake.gameobject.Wall;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,16 +4,17 @@ import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.snake.enums.State;
 import de.unikl.seda.snake.gui.snake.menu.GameMenu;
 import de.unikl.seda.snake.gui.snake.menu.GameOverMenuItem;
-import de.unikl.seda.snake.gui.snake.model.*;
-import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
+import de.unikl.seda.snake.gui.snake.gameobject.*;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.GameObject;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 
 import java.util.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.State.ALIVE;
 import static de.unikl.seda.snake.gui.snake.enums.State.DEAD;
-import static de.unikl.seda.snake.gui.snake.model.enums.Direction.IDLE;
+import static de.unikl.seda.snake.gui.snake.gameobject.enums.Direction.IDLE;
 
 public class SnakeGameState {
     // Game State

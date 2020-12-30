@@ -1,14 +1,14 @@
-package de.unikl.seda.snake.gui.snake.model;
+package de.unikl.seda.snake.gui.snake.gameobject;
 
-import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
-import de.unikl.seda.snake.gui.snake.model.enums.Direction;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
+import de.unikl.seda.snake.gui.snake.gameobject.enums.Direction;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
-import static de.unikl.seda.snake.gui.snake.model.enums.Direction.*;
+import static de.unikl.seda.snake.gui.snake.gameobject.enums.Direction.*;
 
 public class SnakeHead extends Updatable {
 

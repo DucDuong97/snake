@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.snake;
+package de.unikl.seda.snake.gui.tools;
 
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
 
@@ -16,9 +16,9 @@ public class SnakeGameSettingsAdjuster {
     public final static int REGULAR = 2;
     public final static int BIG = 3;
 
-    private final static int speedBias = 400;
+    private final static int speedBias = 100;
 
-    private final static int speedNorm = 100;
+    private final static int speedNorm = 25;
     private final static int heightNorm = 9 * 30;
     private final static int widthNorm = 16 * 30;
     private final static int pixelNorm = 20;

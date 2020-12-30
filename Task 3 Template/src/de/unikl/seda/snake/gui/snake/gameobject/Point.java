@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.snake.model;
+package de.unikl.seda.snake.gui.snake.gameobject;
 
 public class Point {
     private int x;

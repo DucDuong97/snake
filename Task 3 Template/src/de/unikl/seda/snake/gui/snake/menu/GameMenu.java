@@ -1,8 +1,8 @@
 package de.unikl.seda.snake.gui.snake.menu;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
-import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
-import de.unikl.seda.snake.gui.snake.SnakeGameSettingsAdjuster;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.interfaces.Drawable;
 import de.unikl.seda.snake.gui.snake.menu.interfaces.Adjustable;
 import de.unikl.seda.snake.gui.snake.menu.interfaces.MenuItem;
@@ -32,7 +32,6 @@ public class GameMenu implements Drawable, Selectable {
     @Override
     public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
         final int cellHeight = FONT_SIZE + 10;
-
         FontMetrics fontMetrics = graphics.getFontMetrics();
 
         //highlight current position
@@ -44,7 +43,6 @@ public class GameMenu implements Drawable, Selectable {
         graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE));
         int yText = GAME_INFO_BANNER_HEIGHT - 6;
         for (MenuItem item : childItem) {
-            // align text center
             int xText = 10;
             yText += cellHeight;
             graphics.drawString(item.getName(), xText, yText);
@@ -121,11 +119,18 @@ public class GameMenu implements Drawable, Selectable {
 
     public static GameMenu createMainMenu(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
         GameMenu gameMenuSettings = new GameMenu(null,
-                Arrays.asList(new ResolutionMenuItem(snakeGameSettingsAdjuster), new SpeedMenuItem(snakeGameSettingsAdjuster)
-                    , new LevelMenuItem(snakeGameSettingsAdjuster), new PlayerNameMenuItem()),
+                Arrays.asList(
+                        new ResolutionMenuItem(snakeGameSettingsAdjuster),
+                        new SpeedMenuItem(snakeGameSettingsAdjuster),
+                        new LevelMenuItem(snakeGameSettingsAdjuster),
+                        new PlayerNameMenuItem()),
                 "Settings");
         GameMenu gameMenuRoot = new GameMenu(null,
-                Arrays.asList(new PlayMenuItem(), gameMenuSettings, new AboutMenuItem(),new QuitMenuItem()),
+                Arrays.asList(
+                        new PlayMenuItem(),
+                        gameMenuSettings,
+                        new AboutMenuItem(),
+                        new QuitMenuItem()),
                 "root");
         gameMenuSettings.setParentGameMenu(gameMenuRoot);
         return gameMenuRoot;

@@ -1,7 +1,7 @@
-package de.unikl.seda.snake.gui.snake.model.interfaces;
+package de.unikl.seda.snake.gui.snake.gameobject.interfaces;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
-import de.unikl.seda.snake.gui.snake.model.Point;
+import de.unikl.seda.snake.gui.snake.gameobject.Point;
 
 import java.awt.*;
 

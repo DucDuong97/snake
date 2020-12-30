@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.snake.model.enums;
+package de.unikl.seda.snake.gui.snake.gameobject.enums;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
 

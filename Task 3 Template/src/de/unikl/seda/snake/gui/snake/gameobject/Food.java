@@ -1,10 +1,10 @@
-package de.unikl.seda.snake.gui.snake.model;
+package de.unikl.seda.snake.gui.snake.gameobject;
 
-import de.unikl.seda.snake.gui.snake.SnakeGameSettings;
+import de.unikl.seda.snake.gui.tools.RessourcesManager;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
-import de.unikl.seda.snake.gui.snake.model.interfaces.GameObject;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Hittable;
-import de.unikl.seda.snake.gui.snake.model.interfaces.Updatable;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
+import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 
 import java.awt.*;
 
@@ -20,6 +20,7 @@ public class Food extends Updatable implements Hittable {
 
     @Override
     public void whenHitting(SnakeGameState snakeGameState) {
+        RessourcesManager.playSound(RessourcesManager.FOOD_EATEN);
         snakeGameState.removeObject(this);
         snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         snakeGameState.increaseScore();

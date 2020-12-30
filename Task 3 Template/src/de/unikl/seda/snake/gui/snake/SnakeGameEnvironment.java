@@ -3,6 +3,9 @@ package de.unikl.seda.snake.gui.snake;
 import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.snake.menu.GameMenu;
 import de.unikl.seda.snake.gui.tools.GameEnvironment;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
+import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
+
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.MainState.*;
