@@ -68,7 +68,7 @@ public class GameMenu implements Drawable, Selectable {
     }
 
     public boolean back(SnakeGameEnvironment snakeGameEnvironment) {
-        if (getName().equals("root")) {
+        if (parentGameMenu == null) {
             return false;
         }
         snakeGameEnvironment.setGameMenu(parentGameMenu);
