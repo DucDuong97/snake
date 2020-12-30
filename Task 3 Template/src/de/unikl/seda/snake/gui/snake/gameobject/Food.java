@@ -38,6 +38,7 @@ public class Food extends Updatable implements Hittable {
 
     @Override
     public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
+        /*
         graphics.setColor(color);
         graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
                 location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
@@ -45,5 +46,14 @@ public class Food extends Updatable implements Hittable {
                 gameSettings.getSquareSize(),
                 gameSettings.getSquareSize(),
                 gameSettings.getSquareSize());
+        */
+
+        graphics.drawImage(RessourcesManager.getImage(4),
+                location.getX() * gameSettings.getSquareSize(),
+                location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
+                gameSettings.getSquareSize(),
+                gameSettings.getSquareSize(),
+                null);
+
     }
 }

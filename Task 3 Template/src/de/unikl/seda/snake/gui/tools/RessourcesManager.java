@@ -1,6 +1,8 @@
 package de.unikl.seda.snake.gui.tools;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,16 +15,44 @@ public class RessourcesManager {
     public static final String sound_prefix = "src/de/unikl/seda/snake/gui/ressources/sounds/";
     public static final String image_prefix = "src/de/unikl/seda/snake/gui/ressources/images/";
 
+    // sound indices
     public static final int FOOD_EATEN = 0;
 
-    public static final String FOOD_EATEN_ITEM = "D:\\Working Bench\\Active Duties\\FSE\\se-project-2020-3\\Task 3 Template\\src\\de\\unikl\\seda\\snake\\gui\\ressources\\sounds\\snakehit.wav";
+    // sound paths
+    public static final String FOOD_EATEN_ITEM = sound_prefix + "snakehit.wav";
+
+    // image indices
+    public static final int SNAKE_HEAD_DOWN = 0;
+    public static final int SNAKE_HEAD_RIGHT = 1;
+    public static final int SNAKE_HEAD_UP = 2;
+    public static final int SNAKE_HEAD_LEFT = 3;
+    public static final int FOOD = 4;
+
+    // image paths
+    public static final String SNAKE_HEAD_DOWN_ITEM = image_prefix + "snakeHeadD.png";
+    public static final String SNAKE_HEAD_RIGHT_ITEM = image_prefix + "snakeHeadR.png";
+    public static final String SNAKE_HEAD_UP_ITEM = image_prefix + "snakeHeadU.png";
+    public static final String SNAKE_HEAD_LEFT_ITEM = image_prefix + "snakeHeadL.png";
+    public static final String FOOD_ITEM = image_prefix + "food.png";
+
+
     private static Map<Integer, AudioInputStream> soundMap;
+    private static Map<Integer, Image> imageMap;
 
     static {
         soundMap =  new HashMap<>();
+        imageMap =  new HashMap<>();
 
         try {
+            //import sounds
             soundMap.put(FOOD_EATEN, createReusableAudioInputStream(FOOD_EATEN_ITEM));
+
+            //import images
+            imageMap.put(SNAKE_HEAD_DOWN, ImageIO.read(new File(SNAKE_HEAD_DOWN_ITEM)));
+            imageMap.put(SNAKE_HEAD_RIGHT, ImageIO.read(new File(SNAKE_HEAD_RIGHT_ITEM)));
+            imageMap.put(SNAKE_HEAD_UP, ImageIO.read(new File(SNAKE_HEAD_UP_ITEM)));
+            imageMap.put(SNAKE_HEAD_LEFT, ImageIO.read(new File(SNAKE_HEAD_LEFT_ITEM)));
+            imageMap.put(FOOD, ImageIO.read(new File(FOOD_ITEM)));
         } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
@@ -56,5 +86,9 @@ public class RessourcesManager {
         } catch (LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Image getImage(int image) {
+        return imageMap.get(image);
     }
 }
