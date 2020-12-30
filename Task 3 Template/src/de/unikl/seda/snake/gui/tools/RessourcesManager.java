@@ -15,8 +15,7 @@ public class RessourcesManager {
 
     public static final int FOOD_EATEN = 0;
 
-    public static final String FOOD_EATEN_ITEM = sound_prefix + "snakehit.wav";
-
+    public static final String FOOD_EATEN_ITEM = "D:\\Working Bench\\Active Duties\\FSE\\se-project-2020-3\\Task 3 Template\\src\\de\\unikl\\seda\\snake\\gui\\ressources\\sounds\\snakehit.wav";
     private static Map<Integer, AudioInputStream> soundMap;
 
     static {
