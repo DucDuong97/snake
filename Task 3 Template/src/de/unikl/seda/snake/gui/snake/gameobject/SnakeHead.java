@@ -1,5 +1,6 @@
 package de.unikl.seda.snake.gui.snake.gameobject;
 
+import de.unikl.seda.snake.gui.tools.RessourcesManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
 import de.unikl.seda.snake.gui.snake.gameobject.enums.Direction;
@@ -66,13 +67,20 @@ public class SnakeHead extends Updatable {
 
     @Override
     public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
-        graphics.setColor(color);
-        graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
+//        graphics.setColor(color);
+//        graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
+//                location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
+//                gameSettings.getSquareSize(),
+//                gameSettings.getSquareSize(),
+//                gameSettings.getSquareSize(),
+//                gameSettings.getSquareSize());
+
+        graphics.drawImage(RessourcesManager.getImage(this.currentDirection.imageCode()),
+                location.getX() * gameSettings.getSquareSize(),
                 location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
                 gameSettings.getSquareSize(),
                 gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize());
+                null);
     }
 
     public Direction getCurrentDirection() {

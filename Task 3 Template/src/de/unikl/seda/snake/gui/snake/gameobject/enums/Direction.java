@@ -2,6 +2,9 @@ package de.unikl.seda.snake.gui.snake.gameobject.enums;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
 
+import static de.unikl.seda.snake.gui.tools.RessourcesManager.SNAKE_HEAD_DOWN;
+import static de.unikl.seda.snake.gui.tools.RessourcesManager.SNAKE_HEAD_RIGHT;
+
 public enum Direction {
     LEFT {
         @Override
@@ -24,6 +27,11 @@ public enum Direction {
         @Override
         public boolean goRight(SnakeGameState snakeGameState) {
             return false;
+        }
+
+        @Override
+        public int imageCode() {
+            return 0;
         }
     },
 
@@ -49,6 +57,11 @@ public enum Direction {
         public boolean goRight(SnakeGameState snakeGameState) {
             return false;
         }
+
+        @Override
+        public int imageCode() {
+            return SNAKE_HEAD_RIGHT;
+        }
     },
 
     UP {
@@ -73,6 +86,11 @@ public enum Direction {
             snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
             return true;
         }
+
+        @Override
+        public int imageCode() {
+            return 0;
+        }
     },
 
     DOWN {
@@ -96,6 +114,11 @@ public enum Direction {
         public boolean goRight(SnakeGameState snakeGameState) {
             snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
             return true;
+        }
+
+        @Override
+        public int imageCode() {
+            return SNAKE_HEAD_DOWN;
         }
     },
 
@@ -123,10 +146,17 @@ public enum Direction {
             snakeGameState.getSnakeHead().setCurrentDirection(RIGHT);
             return true;
         }
+
+        @Override
+        public int imageCode() {
+            return 0;
+        }
     };
 
     public abstract boolean goUp(SnakeGameState snakeGameState);
     public abstract boolean goDown(SnakeGameState snakeGameState);
     public abstract boolean goLeft(SnakeGameState snakeGameState);
     public abstract boolean goRight(SnakeGameState snakeGameState);
+
+    public abstract int imageCode();
 }
