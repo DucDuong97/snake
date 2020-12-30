@@ -17,11 +17,17 @@ public class ResolutionMenuItem extends Adjustable {
 
     @Override
     public void increase() {
-        snakeGameSettingsAdjuster.setScreenSize(++level);
+        if (this.level > 2) {
+            return;
+        }
+        snakeGameSettingsAdjuster.setScreenSize(++this.level);
     }
 
     @Override
     public void decrease() {
+        if (this.level <= 1) {
+            return;
+        }
         snakeGameSettingsAdjuster.setScreenSize(--level);
     }
 

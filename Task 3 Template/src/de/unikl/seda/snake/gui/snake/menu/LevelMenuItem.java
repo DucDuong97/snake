@@ -8,7 +8,7 @@ public class LevelMenuItem extends Adjustable {
     private int level;
     public LevelMenuItem(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
         super(snakeGameSettingsAdjuster);
-        this.level = snakeGameSettingsAdjuster.getGameLevelLevel();
+        this.level = snakeGameSettingsAdjuster.getGameLevel();
     }
 
     @Override
@@ -18,40 +18,18 @@ public class LevelMenuItem extends Adjustable {
 
     @Override
     public void increase() {
-        switch(level) {
-            case 0:
-                level++;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.VERTICAL_LINES);
-                break;
-            case 1:
-                level++;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.BOX);
-                break;
-            case 2:
-                level = 0;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.NO_BORDER);
-                break;
+        if (this.level > GameLevel.values().length - 2) {
+            return;
         }
-        System.out.println(snakeGameSettingsAdjuster.getSnakeGameSettings().getGameLevel());
+        snakeGameSettingsAdjuster.setGameLevel(++this.level);
     }
 
     @Override
     public void decrease() {
-        switch(level) {
-            case 0:
-                level = 2;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.BOX);
-                break;
-            case 1:
-                level--;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.NO_BORDER);
-                break;
-            case 2:
-                level--;
-                snakeGameSettingsAdjuster.setGameLevel(GameLevel.VERTICAL_LINES);
-                break;
+        if (this.level <= 0) {
+            return;
         }
-        System.out.println(snakeGameSettingsAdjuster.getSnakeGameSettings().getGameLevel());
+        snakeGameSettingsAdjuster.setGameLevel(--this.level);
     }
 
     @Override

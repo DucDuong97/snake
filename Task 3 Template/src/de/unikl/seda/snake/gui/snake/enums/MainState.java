@@ -9,6 +9,8 @@ import de.unikl.seda.snake.gui.snake.menu.ResumeMenuItem;
 import java.awt.*;
 import java.util.Arrays;
 
+import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.INFO_HEIGHT;
+
 public enum MainState {
     IN_MENU {
         @Override
@@ -103,6 +105,8 @@ public enum MainState {
 
         @Override
         public void draw(SnakeGameEnvironment snakeGameEnvironment, Graphics2D graphics) {
+            graphics.drawString("Score: " + snakeGameEnvironment.getSnakeGameState().getScore(),
+                    snakeGameEnvironment.getWidth() - 80, INFO_HEIGHT);
             snakeGameEnvironment.getSnakeGameState().getObjectSet()
                     .forEach(gameObject -> gameObject.draw(graphics, snakeGameEnvironment.getSnakeGameSettings()));
         }

@@ -9,10 +9,8 @@ import de.unikl.seda.snake.gui.snake.menu.interfaces.MenuItem;
 import de.unikl.seda.snake.gui.snake.menu.interfaces.Selectable;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
 

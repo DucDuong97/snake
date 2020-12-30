@@ -6,16 +6,16 @@ import de.unikl.seda.snake.gui.tools.GameEnvironment;
 import java.awt.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.MainState.*;
-import static de.unikl.seda.snake.gui.snake.model.enums.Direction.*;
 
 public class SnakeGameEnvironment extends GameEnvironment {
 
     public static final int GAME_INFO_BANNER_HEIGHT = 25;
-    private static final int INFO_HEIGHT = 18;
+    public static final int INFO_HEIGHT = 18;
 
     private SnakeGameState snakeGameState;
     private GameMenu gameMenu;
     private SnakeGameSettings snakeGameSettings;
+    private SnakeGameSettingsAdjuster snakeGameSettingsAdjuster;
 
     private MainState mainState;
 
@@ -23,11 +23,8 @@ public class SnakeGameEnvironment extends GameEnvironment {
         // sets the size of the snake environment
         super(0, 0, 0);
         this.snakeGameSettings = new SnakeGameSettings(this);
-        this.snakeGameState = new SnakeGameState(snakeGameSettings);
-        this.mainState = IN_MENU;
-
-        SnakeGameSettingsAdjuster snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
-        this.gameMenu = GameMenu.createMainMenu(snakeGameSettingsAdjuster);
+        this.snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
+        goToGameMenu();
     }
 
     @Override
@@ -79,7 +76,6 @@ public class SnakeGameEnvironment extends GameEnvironment {
         graphics.fillRect(0,0,this.getWidth(), GAME_INFO_BANNER_HEIGHT);
         graphics.setColor(Color.BLACK);
         graphics.drawString(snakeGameSettings.getPlayerName(), 10, INFO_HEIGHT);
-        graphics.drawString("Score: " + snakeGameState.getScore(), getWidth() - 80, INFO_HEIGHT);
 
         // draw grid
 //        int y = GAME_INFO_BANNER_HEIGHT;
@@ -124,9 +120,13 @@ public class SnakeGameEnvironment extends GameEnvironment {
         this.mainState = mainState;
     }
 
-    public void renewGameState() {
+    public void startGame() {
         this.snakeGameState = new SnakeGameState(snakeGameSettings);
-        SnakeGameSettingsAdjuster snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
-        this.gameMenu = GameMenu.createMainMenu(snakeGameSettingsAdjuster);
+        this.mainState = IN_GAME;
+    }
+
+    public void goToGameMenu() {
+        this.gameMenu = GameMenu.createMainMenu(this.snakeGameSettingsAdjuster);
+        this.mainState = IN_MENU;
     }
 }

@@ -9,7 +9,7 @@ public class PlayMenuItem implements Selectable {
 
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        snakeGameEnvironment.getSnakeGameState().setup();
+        snakeGameEnvironment.startGame();
         snakeGameEnvironment.setMainState(IN_GAME);
     }
 

@@ -16,9 +16,11 @@ public class SnakeGameSettingsAdjuster {
     public final static int REGULAR = 2;
     public final static int BIG = 3;
 
-    private final static int speedNorm = 200;
-    private final static int heightNorm = 300;
-    private final static int widthNorm = 400;
+    private final static int speedBias = 400;
+
+    private final static int speedNorm = 100;
+    private final static int heightNorm = 9 * 30;
+    private final static int widthNorm = 16 * 30;
     private final static int pixelNorm = 20;
     private final static Map<Integer, GameLevel> gameLevelMap;
 
@@ -29,39 +31,26 @@ public class SnakeGameSettingsAdjuster {
         }
     }
 
-    public SnakeGameSettings getSnakeGameSettings() {
-        return snakeGameSettings;
-    }
-
     private SnakeGameSettings snakeGameSettings;
 
-    private GameLevel gameLevel;
+    private int gameLevel;
     private int speedLevel;
     private int screenSize;
 
     public SnakeGameSettingsAdjuster(SnakeGameSettings snakeGameSettings) {
         this.snakeGameSettings = snakeGameSettings;
-        setGameLevel(snakeGameSettings.getGameLevel());
-        setSpeedLevel(snakeGameSettings.getGameSpeed() / speedNorm);
-        setScreenSize(snakeGameSettings.getHeight() / heightNorm);
+        setGameLevel(snakeGameSettings.getGameLevel().getConst());
+        setSpeedLevel(1);
+        setScreenSize(1);
     }
 
-    public GameLevel getGameLevel() {
+    public int getGameLevel() {
         return gameLevel;
     }
 
-    public int getGameLevelLevel() {
-        if (gameLevel == GameLevel.NO_BORDER) {
-            return 0;
-        } else if  (gameLevel == GameLevel.VERTICAL_LINES) {
-            return 1;
-        }
-        return 2;
-    }
-
-    public void setGameLevel(GameLevel gameLevel) {
+    public void setGameLevel(int gameLevel) {
         this.gameLevel = gameLevel;
-        snakeGameSettings.setGameLevel(gameLevel);
+        snakeGameSettings.setGameLevel(gameLevelMap.get(this.gameLevel));
     }
 
     public int getSpeedLevel() {
@@ -70,7 +59,7 @@ public class SnakeGameSettingsAdjuster {
 
     public void setSpeedLevel(int speedLevel) {
         this.speedLevel = speedLevel;
-        snakeGameSettings.setGameSpeed(speedLevel * speedNorm);
+        snakeGameSettings.setGameSpeed(speedBias - speedLevel * speedNorm);
     }
 
     public int getScreenSize() {

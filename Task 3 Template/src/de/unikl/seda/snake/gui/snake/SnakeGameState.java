@@ -35,33 +35,35 @@ public class SnakeGameState {
     public SnakeGameState(SnakeGameSettings gameSettings) {
         this.state = ALIVE;
         this.gameSettings = gameSettings;
-    }
 
-    public void setup() {
         System.out.println("Setting up the game");
         this.score = 0;
         this.objectSet = new HashSet<>();
         this.updatableSet = new TreeSet<>();
         this.hittableMap = new HashMap<>();
         this.updateQueue = new LinkedList<>();
-        gameSettings.getGameLevel().buildWall(gameSettings.getxBound(), gameSettings.getyBound())
-                .forEach(this::addObject);
+        buildWall();
+        createSnake();
+        addObject(new Food(generateRandomPoint()));
+    }
 
+    private void buildWall() {
+        gameSettings.getGameLevel()
+                .buildWall(gameSettings.getxBound(), gameSettings.getyBound())
+                .forEach(this::addObject);
+    }
+
+    private void createSnake() {
         this.snakeHead = new SnakeHead(new Point(2,1));
         SnakeBody firstSnakeBody = new SnakeBody(new Point(1,1));
         addObject(snakeHead);
         snakeBody = new ArrayList<>();
         this.snakeBody.add(firstSnakeBody);
         addObject(firstSnakeBody);
-        addObject(new Food(generateRandomPoint()));
     }
 
     public SnakeGameSettings getGameSettings() {
         return gameSettings;
-    }
-
-    public State getState() {
-        return state;
     }
 
     public void setState(State state) {
