@@ -8,8 +8,14 @@ import de.unikl.seda.snake.gui.snake.gameobject.*;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
+import de.unikl.seda.snake.gui.tools.RessourcesManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 import java.util.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.State.ALIVE;
@@ -30,10 +36,23 @@ public class SnakeGameState {
     private boolean updating = false;
     // Snake
     private SnakeHead snakeHead;
-
     private ArrayList<SnakeBody> snakeBody;
 
+    private Clip activeClip;
+
     public SnakeGameState(SnakeGameSettings gameSettings) {
+        try {
+            AudioInputStream stream = RessourcesManager.soundMap.get(RessourcesManager.BACKGROUND);
+            stream.reset();
+            activeClip = AudioSystem.getClip();
+            activeClip.open(stream);
+            if (gameSettings.isSoundEnabled()) {
+                activeClip.loop(Clip.LOOP_CONTINUOUSLY);
+                activeClip.start();
+            }
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
         this.state = ALIVE;
         this.gameSettings = gameSettings;
 
@@ -70,6 +89,10 @@ public class SnakeGameState {
     public void setState(State state) {
         this.state = state;
         if (state == DEAD) {
+            if (gameSettings.isSoundEnabled()) {
+                RessourcesManager.playSound(RessourcesManager.GAME_OVER);
+            }
+            activeClip.stop();
             this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
             this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
         }
@@ -102,6 +125,11 @@ public class SnakeGameState {
         Hittable hittable = hittableMap.get(snakeHead.getLocation());
         if (!(hittable instanceof Food) && snakeHead.getCurrentDirection() != IDLE) {
             removeObject(snakeBody.remove(0));
+        }
+        if (hittable instanceof Food) {
+            if (gameSettings.isSoundEnabled()) {
+                RessourcesManager.playSound(RessourcesManager.FOOD_EATEN);
+            }
         }
         if (hittable != null) { hittable.whenHitting(this); }
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
@@ -186,5 +214,9 @@ public class SnakeGameState {
 
     public ArrayList<SnakeBody> getSnakeBody() {
         return snakeBody;
+    }
+
+    public Clip getActiveClip() {
+        return activeClip;
     }
 }

@@ -10,6 +10,7 @@ public class SnakeGameSettings {
     private String playerName;
     private GameLevel gameLevel;
     private int gameSpeed;
+    private boolean soundEnabled;
 
     private int squareSize;
     private int height;
@@ -27,6 +28,7 @@ public class SnakeGameSettings {
         squareSize = 50;
         height = 600;
         width = 800;
+        soundEnabled = true;
 
         this.xBound = this.width / this.squareSize;
         this.yBound = this.height / this.squareSize;
@@ -100,6 +102,14 @@ public class SnakeGameSettings {
 
     public SnakeGameEnvironment getSnakeGameEnvironment() {
         return snakeGameEnvironment;
+    }
+
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public void setSoundEnabled(boolean soundEnabled) {
+        this.soundEnabled = soundEnabled;
     }
 
 }

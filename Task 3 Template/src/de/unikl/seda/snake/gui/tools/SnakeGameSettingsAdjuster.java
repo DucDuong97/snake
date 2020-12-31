@@ -5,7 +5,6 @@ import de.unikl.seda.snake.gui.snake.enums.GameLevel;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO set limits
 public class SnakeGameSettingsAdjuster {
 
     public final static int SLOW = 1;
@@ -37,11 +36,14 @@ public class SnakeGameSettingsAdjuster {
     private int speedLevel;
     private int screenSize;
 
+    private boolean soundEnabled;
+
     public SnakeGameSettingsAdjuster(SnakeGameSettings snakeGameSettings) {
         this.snakeGameSettings = snakeGameSettings;
         setGameLevel(snakeGameSettings.getGameLevel().getConst());
         setSpeedLevel(1);
         setScreenSize(1);
+        setSoundEnabled(true);
     }
 
     public int getGameLevel() {
@@ -71,5 +73,14 @@ public class SnakeGameSettingsAdjuster {
         snakeGameSettings.setSquareSize(screenSize * pixelNorm);
         snakeGameSettings.setWidth(screenSize * widthNorm);
         snakeGameSettings.setHeight(screenSize * heightNorm);
+    }
+
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public void setSoundEnabled(boolean soundEnabled) {
+        this.soundEnabled = soundEnabled;
+        snakeGameSettings.setSoundEnabled(soundEnabled);
     }
 }

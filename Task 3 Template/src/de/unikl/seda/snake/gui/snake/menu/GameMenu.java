@@ -123,7 +123,8 @@ public class GameMenu implements Drawable, Selectable {
                         new ResolutionMenuItem(snakeGameSettingsAdjuster),
                         new SpeedMenuItem(snakeGameSettingsAdjuster),
                         new LevelMenuItem(snakeGameSettingsAdjuster),
-                        new PlayerNameMenuItem()),
+                        new PlayerNameMenuItem(),
+                        new SoundMenuItem(snakeGameSettingsAdjuster)),
                 "Settings");
         GameMenu gameMenuRoot = new GameMenu(null,
                 Arrays.asList(

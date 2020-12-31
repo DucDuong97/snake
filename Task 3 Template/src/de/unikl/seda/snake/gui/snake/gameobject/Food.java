@@ -20,7 +20,6 @@ public class Food extends Updatable implements Hittable {
 
     @Override
     public void whenHitting(SnakeGameState snakeGameState) {
-        RessourcesManager.playSound(RessourcesManager.FOOD_EATEN);
         snakeGameState.removeObject(this);
         snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
         snakeGameState.increaseScore();
