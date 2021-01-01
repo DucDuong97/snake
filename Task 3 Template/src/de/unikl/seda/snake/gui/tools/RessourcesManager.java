@@ -3,17 +3,14 @@ package de.unikl.seda.snake.gui.tools;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RessourcesManager {
 
-    public static final String sound_prefix = "src/de/unikl/seda/snake/gui/ressources/sounds/";
-    public static final String image_prefix = "src/de/unikl/seda/snake/gui/ressources/images/";
+    public static final String sound_prefix = "/de/unikl/seda/snake/gui/ressources/sounds/";
+    public static final String image_prefix = "/de/unikl/seda/snake/gui/ressources/images/";
 
     // sound indices
     public static final int FOOD_EATEN = 0;
@@ -56,12 +53,12 @@ public class RessourcesManager {
             soundMap.put(BACKGROUND, createReusableAudioInputStream(BACKGROUND_ITEM));
 
             //import images
-            imageMap.put(SNAKE_HEAD_DOWN, ImageIO.read(new File(SNAKE_HEAD_DOWN_ITEM)));
-            imageMap.put(SNAKE_HEAD_RIGHT, ImageIO.read(new File(SNAKE_HEAD_RIGHT_ITEM)));
-            imageMap.put(SNAKE_HEAD_UP, ImageIO.read(new File(SNAKE_HEAD_UP_ITEM)));
-            imageMap.put(SNAKE_HEAD_LEFT, ImageIO.read(new File(SNAKE_HEAD_LEFT_ITEM)));
-            imageMap.put(FOOD, ImageIO.read(new File(FOOD_ITEM)));
-            imageMap.put(SNAKE_BODY, ImageIO.read(new File(SNAKE_BODY_ITEM)));
+            imageMap.put(SNAKE_HEAD_DOWN, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_DOWN_ITEM)));
+            imageMap.put(SNAKE_HEAD_RIGHT, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_RIGHT_ITEM)));
+            imageMap.put(SNAKE_HEAD_UP, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_UP_ITEM)));
+            imageMap.put(SNAKE_HEAD_LEFT, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_LEFT_ITEM)));
+            imageMap.put(FOOD, ImageIO.read(RessourcesManager.class.getResourceAsStream(FOOD_ITEM)));
+            imageMap.put(SNAKE_BODY, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_BODY_ITEM)));
         } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +67,8 @@ public class RessourcesManager {
     private static AudioInputStream createReusableAudioInputStream(String path)
             throws IOException, UnsupportedAudioFileException
     {
-        try (AudioInputStream ais = AudioSystem.getAudioInputStream(new File(path))) {
+        try (InputStream inputStream = new BufferedInputStream(RessourcesManager.class.getResourceAsStream(path));
+                AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream)) {
             byte[] buffer = new byte[1024 * 32];
             int read = 0;
             ByteArrayOutputStream baos = new ByteArrayOutputStream(buffer.length);

@@ -41,18 +41,7 @@ public class SnakeGameState {
     private Clip activeClip;
 
     public SnakeGameState(SnakeGameSettings gameSettings) {
-        try {
-            AudioInputStream stream = RessourcesManager.soundMap.get(RessourcesManager.BACKGROUND);
-            stream.reset();
-            activeClip = AudioSystem.getClip();
-            activeClip.open(stream);
-            if (gameSettings.isSoundEnabled()) {
-                activeClip.loop(Clip.LOOP_CONTINUOUSLY);
-                activeClip.start();
-            }
-        } catch (LineUnavailableException | IOException e) {
-            e.printStackTrace();
-        }
+        RessourcesManager.playSound(RessourcesManager.BACKGROUND);
         this.state = ALIVE;
         this.gameSettings = gameSettings;
 

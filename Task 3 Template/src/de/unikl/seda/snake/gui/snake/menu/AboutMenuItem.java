@@ -10,8 +10,8 @@ public class AboutMenuItem implements Selectable {
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
         JOptionPane.showMessageDialog(null, "Title: Snake\n " +
                 "Developers: Minh Duc Duong, Duy Nguyen Dinh, Merveille Kana Tsopze Mafo\n" +
-                "Contact information: \n" +
-                "Version date: \n" +
+                "Contact information: duong@rhrk.uni-kl.de\n" +
+                "Version date: 31.12.2020\n" +
                 "Game version: 1.5");
 
     }
