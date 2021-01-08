@@ -1,8 +1,8 @@
-package de.unikl.seda.snake.gui.snake.menu;
+package de.unikl.seda.snake.gui.menu;
 
 import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
-import de.unikl.seda.snake.gui.snake.menu.interfaces.Adjustable;
+import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 
 public class LevelMenuItem extends Adjustable {
     private int level;

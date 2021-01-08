@@ -2,8 +2,8 @@ package de.unikl.seda.snake.gui.snake;
 
 import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.snake.enums.State;
-import de.unikl.seda.snake.gui.snake.menu.GameMenu;
-import de.unikl.seda.snake.gui.snake.menu.GameOverMenuItem;
+import de.unikl.seda.snake.gui.menu.GameMenu;
+import de.unikl.seda.snake.gui.menu.GameOverMenuItem;
 import de.unikl.seda.snake.gui.snake.gameobject.*;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
@@ -11,11 +11,7 @@ import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 import de.unikl.seda.snake.gui.tools.RessourcesManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import java.io.IOException;
 import java.util.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.State.ALIVE;
@@ -82,6 +78,8 @@ public class SnakeGameState {
                 RessourcesManager.playSound(RessourcesManager.GAME_OVER);
             }
             activeClip.stop();
+            //TODO uberprufe ob es eine neue HighScore gibt, falls ja teile User mit und neue HIghScore speichern
+            //TODO Nguyen
             this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
             this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
         }

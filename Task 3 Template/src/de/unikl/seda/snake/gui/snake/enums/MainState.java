@@ -2,9 +2,9 @@ package de.unikl.seda.snake.gui.snake.enums;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.snake.SnakeGameState;
-import de.unikl.seda.snake.gui.snake.menu.BackToMainMenuItem;
-import de.unikl.seda.snake.gui.snake.menu.GameMenu;
-import de.unikl.seda.snake.gui.snake.menu.ResumeMenuItem;
+import de.unikl.seda.snake.gui.menu.BackToMainMenuItem;
+import de.unikl.seda.snake.gui.menu.GameMenu;
+import de.unikl.seda.snake.gui.menu.ResumeMenuItem;
 
 import java.awt.*;
 import java.util.Arrays;

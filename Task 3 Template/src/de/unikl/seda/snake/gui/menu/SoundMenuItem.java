@@ -1,6 +1,6 @@
-package de.unikl.seda.snake.gui.snake.menu;
+package de.unikl.seda.snake.gui.menu;
 
-import de.unikl.seda.snake.gui.snake.menu.interfaces.Adjustable;
+import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 
 public class SoundMenuItem extends Adjustable {

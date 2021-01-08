@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.snake.menu.interfaces;
+package de.unikl.seda.snake.gui.menu.interfaces;
 
 import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 

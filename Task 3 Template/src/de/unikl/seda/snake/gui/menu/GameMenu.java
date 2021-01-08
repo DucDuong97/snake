@@ -1,12 +1,12 @@
-package de.unikl.seda.snake.gui.snake.menu;
+package de.unikl.seda.snake.gui.menu;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.interfaces.Drawable;
-import de.unikl.seda.snake.gui.snake.menu.interfaces.Adjustable;
-import de.unikl.seda.snake.gui.snake.menu.interfaces.MenuItem;
-import de.unikl.seda.snake.gui.snake.menu.interfaces.Selectable;
+import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
+import de.unikl.seda.snake.gui.menu.interfaces.MenuItem;
+import de.unikl.seda.snake.gui.menu.interfaces.Selectable;
 
 import java.awt.*;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
-package de.unikl.seda.snake.gui.snake.menu;
+package de.unikl.seda.snake.gui.menu;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
-import de.unikl.seda.snake.gui.snake.menu.interfaces.Selectable;
+import de.unikl.seda.snake.gui.menu.interfaces.Selectable;
 
 public class QuitMenuItem implements Selectable {
     @Override
