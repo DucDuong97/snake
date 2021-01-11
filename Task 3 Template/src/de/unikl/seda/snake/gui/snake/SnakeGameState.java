@@ -10,8 +10,11 @@ import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 import de.unikl.seda.snake.gui.tools.RessourcesManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
+import de.unikl.seda.snake.highscore.HighScore;
+import de.unikl.seda.snake.highscore.HighScoreHandler;
 
 import javax.sound.sampled.Clip;
+import javax.swing.*;
 import java.util.*;
 
 import static de.unikl.seda.snake.gui.snake.enums.State.ALIVE;
@@ -78,8 +81,19 @@ public class SnakeGameState {
                 RessourcesManager.playSound(RessourcesManager.GAME_OVER);
             }
             activeClip.stop();
-            //TODO uberprufe ob es eine neue HighScore gibt, falls ja teile User mit und neue HIghScore speichern
-            //TODO Nguyen
+            HighScore h = new HighScore(gameSettings.getPlayerName(), 11, score, new Date()
+                    , gameSettings.getGameSpeed(), gameSettings.getGameLevel().toString());
+            if (HighScoreHandler.isNewHighScore(h)) {
+                JOptionPane.showMessageDialog(null, "You had reach the top 10");
+                // Update the new high score
+                List<HighScore> highScoresList = HighScoreHandler.readHighScores();
+                highScoresList.add(h);
+                if (highScoresList.size() > 10) {
+                    Collections.sort(highScoresList, Comparator.comparing(h2 -> h2.getAchievedPoints()));
+                    highScoresList.remove(0);
+                }
+                HighScoreHandler.writeHighScore(highScoresList);
+            }
             this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
             this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
         }

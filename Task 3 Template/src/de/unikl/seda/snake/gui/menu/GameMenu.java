@@ -130,6 +130,7 @@ public class GameMenu implements Drawable, Selectable {
                 Arrays.asList(
                         new PlayMenuItem(),
                         gameMenuSettings,
+                        new HighScoreMenuItem(),
                         new AboutMenuItem(),
                         new QuitMenuItem()),
                 "root");

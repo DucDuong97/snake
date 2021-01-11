@@ -1,16 +1,17 @@
 package de.unikl.seda.snake.highscore;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class HighScore implements Serializable {
     private String playerName;
     private int ranking;
     private int achievedPoints;
-    private String date;
+    private Date date;
     private int speed;
     private String level;
 
-    public HighScore(String playerName, int ranking, int achievedPoints, String date, int speed, String level) {
+    public HighScore(String playerName, int ranking, int achievedPoints, Date date, int speed, String level) {
         this.playerName = playerName;
         this.ranking = ranking;
         this.achievedPoints = achievedPoints;
@@ -43,11 +44,11 @@ public class HighScore implements Serializable {
         this.achievedPoints = achievedPoints;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -65,5 +66,11 @@ public class HighScore implements Serializable {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return playerName +  " - " +ranking + " - " + achievedPoints + " - " + date
+                + " - " + speed + " - " + level + "\n";
     }
 }
