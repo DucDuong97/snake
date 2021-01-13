@@ -39,8 +39,9 @@ public class RessourcesManager {
     public static final String SNAKE_BODY_ITEM = image_prefix + "snakeBody.png";
 
 
-    public static Map<Integer, AudioInputStream> soundMap;
+    private static Map<Integer, AudioInputStream> soundMap;
     private static Map<Integer, Image> imageMap;
+    private static Clip backgroundSound;
 
     static {
         soundMap =  new HashMap<>();
@@ -95,7 +96,24 @@ public class RessourcesManager {
         }
     }
 
+    public static void playBackgroundSound(boolean isSoundEnabled) {
+        try {
+            AudioInputStream stream = RessourcesManager.soundMap.get(RessourcesManager.BACKGROUND);
+            stream.reset();
+            backgroundSound = AudioSystem.getClip();
+            backgroundSound.open(stream);
+            if (isSoundEnabled) {
+                backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+                backgroundSound.start();
+            }
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void stopBackgroundSound() {
+        backgroundSound.stop();
+    }
 
     public static Image getImage(int image) {
         return imageMap.get(image);

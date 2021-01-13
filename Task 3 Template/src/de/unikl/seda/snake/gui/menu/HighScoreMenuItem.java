@@ -19,12 +19,13 @@ public class HighScoreMenuItem implements Selectable {
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
         List<HighScore> highScores = HighScoreHandler.readHighScores();
-        Collections.sort(highScores, Comparator.comparing(h -> h.getAchievedPoints()));
+        highScores.sort(Comparator.comparing(HighScore::getAchievedPoints));
         Collections.reverse(highScores);
         StringBuilder sb = new StringBuilder();
         int counter = 1;
         for (HighScore h : highScores) {
             sb.append(h.toString());
+            sb.append("\n");
             if (counter <= 10) {
                 counter++;
             } else {

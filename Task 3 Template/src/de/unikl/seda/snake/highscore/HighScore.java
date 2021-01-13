@@ -5,15 +5,13 @@ import java.util.Date;
 
 public class HighScore implements Serializable {
     private String playerName;
-    private int ranking;
     private int achievedPoints;
     private Date date;
     private int speed;
     private String level;
 
-    public HighScore(String playerName, int ranking, int achievedPoints, Date date, int speed, String level) {
+    public HighScore(String playerName, int achievedPoints, Date date, int speed, String level) {
         this.playerName = playerName;
-        this.ranking = ranking;
         this.achievedPoints = achievedPoints;
         this.date = date;
         this.speed = speed;
@@ -26,14 +24,6 @@ public class HighScore implements Serializable {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
-    }
-
-    public int getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
     }
 
     public int getAchievedPoints() {
@@ -70,7 +60,10 @@ public class HighScore implements Serializable {
 
     @Override
     public String toString() {
-        return playerName +  " - " +ranking + " - " + achievedPoints + " - " + date
-                + " - " + speed + " - " + level + "\n";
+        return "Player Name: " + playerName +
+                "\nPoints: " + achievedPoints +
+                "\nDate: " + date +
+                "\nSpeed: " + speed +
+                "\nLevel: " + level + "\n";
     }
 }

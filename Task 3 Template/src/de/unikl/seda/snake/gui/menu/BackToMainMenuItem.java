@@ -2,11 +2,12 @@ package de.unikl.seda.snake.gui.menu;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.menu.interfaces.Selectable;
+import de.unikl.seda.snake.gui.tools.RessourcesManager;
 
 public class BackToMainMenuItem implements Selectable {
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        snakeGameEnvironment.getSnakeGameState().getActiveClip().stop();
+        RessourcesManager.stopBackgroundSound();
         snakeGameEnvironment.goToGameMenu();
     }
 

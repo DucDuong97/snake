@@ -37,10 +37,10 @@ public class SnakeGameState {
     private SnakeHead snakeHead;
     private ArrayList<SnakeBody> snakeBody;
 
-    private Clip activeClip;
+//    private Clip activeClip;
 
     public SnakeGameState(SnakeGameSettings gameSettings) {
-        RessourcesManager.playSound(RessourcesManager.BACKGROUND);
+        RessourcesManager.playBackgroundSound(gameSettings.isSoundEnabled());
         this.state = ALIVE;
         this.gameSettings = gameSettings;
 
@@ -80,19 +80,12 @@ public class SnakeGameState {
             if (gameSettings.isSoundEnabled()) {
                 RessourcesManager.playSound(RessourcesManager.GAME_OVER);
             }
-            activeClip.stop();
-            HighScore h = new HighScore(gameSettings.getPlayerName(), 11, score, new Date()
+            RessourcesManager.stopBackgroundSound();
+            HighScore h = new HighScore(gameSettings.getPlayerName(),  score, new Date()
                     , gameSettings.getGameSpeed(), gameSettings.getGameLevel().toString());
             if (HighScoreHandler.isNewHighScore(h)) {
                 JOptionPane.showMessageDialog(null, "You had reach the top 10");
-                // Update the new high score
-                List<HighScore> highScoresList = HighScoreHandler.readHighScores();
-                highScoresList.add(h);
-                if (highScoresList.size() > 10) {
-                    Collections.sort(highScoresList, Comparator.comparing(h2 -> h2.getAchievedPoints()));
-                    highScoresList.remove(0);
-                }
-                HighScoreHandler.writeHighScore(highScoresList);
+                HighScoreHandler.updateHighScore(h);
             }
             this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
             this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
@@ -215,9 +208,5 @@ public class SnakeGameState {
 
     public ArrayList<SnakeBody> getSnakeBody() {
         return snakeBody;
-    }
-
-    public Clip getActiveClip() {
-        return activeClip;
     }
 }
