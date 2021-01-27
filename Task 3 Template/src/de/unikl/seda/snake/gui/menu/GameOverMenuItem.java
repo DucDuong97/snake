@@ -9,7 +9,7 @@ public class GameOverMenuItem implements Selectable {
     @Override
     // Back to main menu with a new SnakeGameState but retain the settings
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        snakeGameEnvironment.goToGameMenu();
+        snakeGameEnvironment.goToMainMenu();
     }
 
     @Override

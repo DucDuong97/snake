@@ -1,9 +1,7 @@
 package de.unikl.seda.snake.gui.snake.interfaces;
 
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
-
-import java.awt.*;
+import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
 
 public interface Drawable {
-    public abstract void draw(Graphics2D graphics, SnakeGameSettings gameSettings);
+    void draw(SnakeGameDrawer snakeGameDrawer);
 }

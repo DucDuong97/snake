@@ -1,32 +1,23 @@
-package de.unikl.seda.snake.gui.snake;
+package de.unikl.seda.snake.gui.tools;
 
-import de.unikl.seda.snake.gui.snake.enums.MainState;
-import de.unikl.seda.snake.gui.snake.enums.State;
-import de.unikl.seda.snake.gui.menu.GameMenu;
-import de.unikl.seda.snake.gui.menu.GameOverMenuItem;
+import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.snake.gameobject.*;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.GameObject;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
-import de.unikl.seda.snake.gui.tools.RessourcesManager;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
-import de.unikl.seda.snake.highscore.HighScore;
-import de.unikl.seda.snake.highscore.HighScoreHandler;
-
-import javax.sound.sampled.Clip;
-import javax.swing.*;
 import java.util.*;
 
-import static de.unikl.seda.snake.gui.snake.enums.State.ALIVE;
-import static de.unikl.seda.snake.gui.snake.enums.State.DEAD;
-import static de.unikl.seda.snake.gui.snake.gameobject.enums.Direction.IDLE;
+import static de.unikl.seda.snake.gui.snake.enums.Direction.IDLE;
 
-public class SnakeGameState {
+public class GameObjectManager {
+    private boolean poopMode;
+    private int life;
+    // Static properties
+    private int xBound;
+    private int yBound;
     // Game State
-    private State state;
-    private SnakeGameSettings gameSettings;
     private int score;
-
+    private boolean poop = false;
     // In-game Objects
     private Set<GameObject> objectSet;
     private Set<Updatable> updatableSet;
@@ -36,13 +27,17 @@ public class SnakeGameState {
     // Snake
     private SnakeHead snakeHead;
     private ArrayList<SnakeBody> snakeBody;
+    private SnakeGameEnvironment snakeGameEnvironment;
 
-//    private Clip activeClip;
-
-    public SnakeGameState(SnakeGameSettings gameSettings) {
-        RessourcesManager.playBackgroundSound(gameSettings.isSoundEnabled());
-        this.state = ALIVE;
-        this.gameSettings = gameSettings;
+    public GameObjectManager(SnakeGameEnvironment snakeGameEnvironment) {
+        ResourceManager.playBackgroundSound();
+        this.snakeGameEnvironment = snakeGameEnvironment;
+        this.xBound = snakeGameEnvironment.getSnakeGameSettings().getxBound();
+        this.yBound = snakeGameEnvironment.getSnakeGameSettings().getyBound();
+        this.poopMode = snakeGameEnvironment.getSnakeGameSettings().isPoopMode();
+        if (poopMode) {
+            this.life = 3;
+        }
 
         System.out.println("Setting up the game");
         this.score = 0;
@@ -52,12 +47,15 @@ public class SnakeGameState {
         this.updateQueue = new LinkedList<>();
         buildWall();
         createSnake();
-        addObject(new Food(generateRandomPoint()));
+        for (int i = 0; i < snakeGameEnvironment.getSnakeGameSettings().getNumOfFoods(); i++) {
+            addObject(new Food(generateRandomPoint()));
+        }
     }
 
     private void buildWall() {
-        gameSettings.getGameLevel()
-                .buildWall(gameSettings.getxBound(), gameSettings.getyBound())
+        snakeGameEnvironment.getSnakeGameSettings()
+                .getGameLevel()
+                .buildWall(xBound, yBound)
                 .forEach(this::addObject);
     }
 
@@ -70,34 +68,20 @@ public class SnakeGameState {
         addObject(firstSnakeBody);
     }
 
-    public SnakeGameSettings getGameSettings() {
-        return gameSettings;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-        if (state == DEAD) {
-            if (gameSettings.isSoundEnabled()) {
-                RessourcesManager.playSound(RessourcesManager.GAME_OVER);
-            }
-            RessourcesManager.stopBackgroundSound();
-            HighScore h = new HighScore(gameSettings.getPlayerName(),  score, new Date()
-                    , gameSettings.getGameSpeed(), gameSettings.getGameLevel().toString());
-            if (HighScoreHandler.isNewHighScore(h)) {
-                JOptionPane.showMessageDialog(null, "You had reach the top 10");
-                HighScoreHandler.updateHighScore(h);
-            }
-            this.gameSettings.getSnakeGameEnvironment().setGameMenu(new GameMenu(null, Arrays.asList(new GameOverMenuItem()),"game over"));
-            this.gameSettings.getSnakeGameEnvironment().setMainState(MainState.IN_MENU);
-        }
-    }
-
     public SnakeHead getSnakeHead() {
         return snakeHead;
     }
 
     public int getScore() {
         return score;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void decreaseLife() {
+        this.life--;
     }
 
     public void increaseScore() {
@@ -108,21 +92,23 @@ public class SnakeGameState {
         return new HashSet<>(this.objectSet);
     }
 
+    public void dead() {
+        ResourceManager.playSound(ResourceManager.GAME_OVER);
+        ResourceManager.stopBackgroundSound();
+        snakeGameEnvironment.goToGameOverMenu(score);
+    }
+
     public void update() {
-        // game over
-        if (this.state == DEAD) {
-            return;
-        }
         updating = true;
         this.updatableSet.forEach(updatable -> updatable.update(this));
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
         Hittable hittable = hittableMap.get(snakeHead.getLocation());
         if (!(hittable instanceof Food) && snakeHead.getCurrentDirection() != IDLE) {
+            Point poopLocation = snakeBody.get(0).getLocation();
             removeObject(snakeBody.remove(0));
-        }
-        if (hittable instanceof Food) {
-            if (gameSettings.isSoundEnabled()) {
-                RessourcesManager.playSound(RessourcesManager.FOOD_EATEN);
+            if (poop) {
+                addObject(new Poop(poopLocation));
+                poop = !poop;
             }
         }
         if (hittable != null) { hittable.whenHitting(this); }
@@ -141,9 +127,9 @@ public class SnakeGameState {
         Point tempPoint;
         do {
             //Generate a x-coordinate between [0, getWidth()], the value must divisible by pixel
-            x = rand.nextInt(gameSettings.getxBound());
+            x = rand.nextInt(xBound);
             //Generate a y-coordinate between [GAME_INFO_BANNER_HEIGHT, getHeight() - pixel]
-            y = rand.nextInt(gameSettings.getyBound());
+            y = rand.nextInt(yBound);
             tempPoint = new Point(x, y);
             //Make sure the generated coordinate not overlap with the snake or wall if so spawn the food and reset the counter
             for (GameObject g : objectSet) {
@@ -154,7 +140,7 @@ public class SnakeGameState {
             }
         } while (overlap);
         // Update the sets
-        System.out.println("Generate point at " + tempPoint.getX() + " " + tempPoint.getY());
+//        System.out.println("Generate point at " + tempPoint.getX() + " " + tempPoint.getY());
         return tempPoint;
 
     }
@@ -168,7 +154,7 @@ public class SnakeGameState {
                     updatableSet.add((Updatable)object);
                 }
                 if (object instanceof Hittable) {
-                    //System.out.println("Added Hittable");
+                    System.out.println("Added Hittable");
                     hittableMap.put(object.getLocation(), (Hittable)object);
                 }
             });
@@ -208,5 +194,21 @@ public class SnakeGameState {
 
     public ArrayList<SnakeBody> getSnakeBody() {
         return snakeBody;
+    }
+
+    public int getxBound() {
+        return xBound;
+    }
+
+    public int getyBound() {
+        return yBound;
+    }
+
+    public boolean isPoopMode() {
+        return poopMode;
+    }
+
+    public void setPoop(boolean poopMode) {
+        this.poop = poopMode;
     }
 }

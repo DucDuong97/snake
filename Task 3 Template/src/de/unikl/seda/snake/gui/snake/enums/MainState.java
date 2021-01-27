@@ -1,15 +1,7 @@
 package de.unikl.seda.snake.gui.snake.enums;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
-import de.unikl.seda.snake.gui.snake.SnakeGameState;
-import de.unikl.seda.snake.gui.menu.BackToMainMenuItem;
-import de.unikl.seda.snake.gui.menu.GameMenu;
-import de.unikl.seda.snake.gui.menu.ResumeMenuItem;
-
-import java.awt.*;
-import java.util.Arrays;
-
-import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.INFO_HEIGHT;
+import de.unikl.seda.snake.gui.tools.GameObjectManager;
 
 public enum MainState {
     IN_MENU {
@@ -51,8 +43,8 @@ public enum MainState {
         }
 
         @Override
-        public void draw(SnakeGameEnvironment snakeGameEnvironment, Graphics2D graphics) {
-            snakeGameEnvironment.getGameMenu().draw(graphics, snakeGameEnvironment.getSnakeGameSettings());
+        public void draw(SnakeGameEnvironment snakeGameEnvironment) {
+            snakeGameEnvironment.getGameMenu().draw(snakeGameEnvironment.getSnakeGameDrawer());
         }
 
         @Override
@@ -63,30 +55,30 @@ public enum MainState {
     IN_GAME {
         @Override
         public void update(SnakeGameEnvironment snakeGameEnvironment) {
-            snakeGameEnvironment.getSnakeGameState().update();
+            snakeGameEnvironment.getGameObjectManager().update();
         }
 
         @Override
         public boolean handleKeypressUp(SnakeGameEnvironment snakeGameEnvironment) {
-            SnakeGameState gameState = snakeGameEnvironment.getSnakeGameState();
+            GameObjectManager gameState = snakeGameEnvironment.getGameObjectManager();
             return gameState.getSnakeHead().getCurrentDirection().goUp(gameState);
         }
 
         @Override
         public boolean handleKeypressDown(SnakeGameEnvironment snakeGameEnvironment) {
-            SnakeGameState gameState = snakeGameEnvironment.getSnakeGameState();
+            GameObjectManager gameState = snakeGameEnvironment.getGameObjectManager();
             return gameState.getSnakeHead().getCurrentDirection().goDown(gameState);
         }
 
         @Override
         public boolean handleKeypressLeft(SnakeGameEnvironment snakeGameEnvironment) {
-            SnakeGameState gameState = snakeGameEnvironment.getSnakeGameState();
+            GameObjectManager gameState = snakeGameEnvironment.getGameObjectManager();
             return gameState.getSnakeHead().getCurrentDirection().goLeft(gameState);
         }
 
         @Override
         public boolean handleKeypressRight(SnakeGameEnvironment snakeGameEnvironment) {
-            SnakeGameState gameState = snakeGameEnvironment.getSnakeGameState();
+            GameObjectManager gameState = snakeGameEnvironment.getGameObjectManager();
             return gameState.getSnakeHead().getCurrentDirection().goRight(gameState);
         }
 
@@ -97,18 +89,14 @@ public enum MainState {
 
         @Override
         public boolean handleEscapePress(SnakeGameEnvironment snakeGameEnvironment) {
-            snakeGameEnvironment.setGameMenu(new GameMenu(null
-                    , Arrays.asList(new ResumeMenuItem(), new BackToMainMenuItem()), "pause"));
-            snakeGameEnvironment.setMainState(IN_MENU);
+            snakeGameEnvironment.goToPauseMenu();
             return true;
         }
 
         @Override
-        public void draw(SnakeGameEnvironment snakeGameEnvironment, Graphics2D graphics) {
-            graphics.drawString("Score: " + snakeGameEnvironment.getSnakeGameState().getScore(),
-                    snakeGameEnvironment.getWidth() - 80, INFO_HEIGHT);
-            snakeGameEnvironment.getSnakeGameState().getObjectSet()
-                    .forEach(gameObject -> gameObject.draw(graphics, snakeGameEnvironment.getSnakeGameSettings()));
+        public void draw(SnakeGameEnvironment snakeGameEnvironment) {
+            snakeGameEnvironment.getGameObjectManager().getObjectSet()
+                    .forEach(gameObject -> gameObject.draw(snakeGameEnvironment.getSnakeGameDrawer()));
         }
 
         @Override
@@ -128,7 +116,7 @@ public enum MainState {
     public abstract boolean handleReturnPress(SnakeGameEnvironment snakeGameEnvironment);
     public abstract boolean handleEscapePress(SnakeGameEnvironment snakeGameEnvironment);
 
-    public abstract void draw(SnakeGameEnvironment snakeGameEnvironment, Graphics2D graphics);
+    public abstract void draw(SnakeGameEnvironment snakeGameEnvironment);
 
     public abstract void makeThreadSleep(SnakeGameEnvironment snakeGameEnvironment) throws InterruptedException;
 }

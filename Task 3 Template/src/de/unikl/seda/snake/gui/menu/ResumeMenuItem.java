@@ -7,7 +7,7 @@ import de.unikl.seda.snake.gui.menu.interfaces.Selectable;
 public class ResumeMenuItem implements Selectable {
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        snakeGameEnvironment.setMainState(MainState.IN_GAME);
+        snakeGameEnvironment.resumeGame();
     }
 
     @Override

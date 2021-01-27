@@ -1,4 +1,4 @@
-package de.unikl.seda.snake.gui.tools;
+package de.unikl.seda.snake.settings;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
@@ -11,6 +11,8 @@ public class SnakeGameSettings {
     private GameLevel gameLevel;
     private int gameSpeed;
     private boolean soundEnabled;
+    private int numOfFoods;
+    private boolean poopMode;
 
     private int squareSize;
     private int height;
@@ -29,6 +31,8 @@ public class SnakeGameSettings {
         height = 600;
         width = 800;
         soundEnabled = true;
+        numOfFoods = 1;
+        poopMode = true;
 
         this.xBound = this.width / this.squareSize;
         this.yBound = this.height / this.squareSize;
@@ -100,10 +104,6 @@ public class SnakeGameSettings {
         return yBound;
     }
 
-    public SnakeGameEnvironment getSnakeGameEnvironment() {
-        return snakeGameEnvironment;
-    }
-
     public boolean isSoundEnabled() {
         return soundEnabled;
     }
@@ -112,4 +112,19 @@ public class SnakeGameSettings {
         this.soundEnabled = soundEnabled;
     }
 
+    public int getNumOfFoods() {
+        return this.numOfFoods;
+    }
+
+    public void setNumOfFoods(int numOfFoods) {
+        this.numOfFoods = numOfFoods;
+    }
+
+    public boolean isPoopMode() {
+        return this.poopMode;
+    }
+
+    public void setPoopMode(boolean poopMode) {
+        this.poopMode = poopMode;
+    }
 }

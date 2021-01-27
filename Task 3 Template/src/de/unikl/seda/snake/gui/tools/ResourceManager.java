@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RessourcesManager {
+public class ResourceManager {
 
     public static final String sound_prefix = "/de/unikl/seda/snake/gui/ressources/sounds/";
     public static final String image_prefix = "/de/unikl/seda/snake/gui/ressources/images/";
@@ -43,6 +43,8 @@ public class RessourcesManager {
     private static Map<Integer, Image> imageMap;
     private static Clip backgroundSound;
 
+    private static boolean isSoundEnable;
+
     static {
         soundMap =  new HashMap<>();
         imageMap =  new HashMap<>();
@@ -54,12 +56,12 @@ public class RessourcesManager {
             soundMap.put(BACKGROUND, createReusableAudioInputStream(BACKGROUND_ITEM));
 
             //import images
-            imageMap.put(SNAKE_HEAD_DOWN, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_DOWN_ITEM)));
-            imageMap.put(SNAKE_HEAD_RIGHT, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_RIGHT_ITEM)));
-            imageMap.put(SNAKE_HEAD_UP, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_UP_ITEM)));
-            imageMap.put(SNAKE_HEAD_LEFT, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_HEAD_LEFT_ITEM)));
-            imageMap.put(FOOD, ImageIO.read(RessourcesManager.class.getResourceAsStream(FOOD_ITEM)));
-            imageMap.put(SNAKE_BODY, ImageIO.read(RessourcesManager.class.getResourceAsStream(SNAKE_BODY_ITEM)));
+            imageMap.put(SNAKE_HEAD_DOWN, ImageIO.read(ResourceManager.class.getResourceAsStream(SNAKE_HEAD_DOWN_ITEM)));
+            imageMap.put(SNAKE_HEAD_RIGHT, ImageIO.read(ResourceManager.class.getResourceAsStream(SNAKE_HEAD_RIGHT_ITEM)));
+            imageMap.put(SNAKE_HEAD_UP, ImageIO.read(ResourceManager.class.getResourceAsStream(SNAKE_HEAD_UP_ITEM)));
+            imageMap.put(SNAKE_HEAD_LEFT, ImageIO.read(ResourceManager.class.getResourceAsStream(SNAKE_HEAD_LEFT_ITEM)));
+            imageMap.put(FOOD, ImageIO.read(ResourceManager.class.getResourceAsStream(FOOD_ITEM)));
+            imageMap.put(SNAKE_BODY, ImageIO.read(ResourceManager.class.getResourceAsStream(SNAKE_BODY_ITEM)));
         } catch (UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
@@ -68,23 +70,25 @@ public class RessourcesManager {
     private static AudioInputStream createReusableAudioInputStream(String path)
             throws IOException, UnsupportedAudioFileException
     {
-        try (InputStream inputStream = new BufferedInputStream(RessourcesManager.class.getResourceAsStream(path));
-                AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream)) {
+        try (InputStream inputStream = new BufferedInputStream(ResourceManager.class.getResourceAsStream(path));
+             AudioInputStream ais = AudioSystem.getAudioInputStream(inputStream)) {
             byte[] buffer = new byte[1024 * 32];
             int read = 0;
             ByteArrayOutputStream baos = new ByteArrayOutputStream(buffer.length);
             while ((read = ais.read(buffer, 0, buffer.length)) != -1) {
                 baos.write(buffer, 0, read);
             }
-            AudioInputStream reusableAis = new AudioInputStream(
+            return new AudioInputStream(
                             new ByteArrayInputStream(baos.toByteArray()),
                             ais.getFormat(),
                             AudioSystem.NOT_SPECIFIED);
-            return reusableAis;
         }
     }
 
     public static void playSound(int sound) {
+        if (!isSoundEnable) {
+            return;
+        }
         try {
             AudioInputStream stream = soundMap.get(sound);
             stream.reset();
@@ -96,16 +100,17 @@ public class RessourcesManager {
         }
     }
 
-    public static void playBackgroundSound(boolean isSoundEnabled) {
+    public static void playBackgroundSound() {
+        if (!isSoundEnable) {
+            return;
+        }
         try {
-            AudioInputStream stream = RessourcesManager.soundMap.get(RessourcesManager.BACKGROUND);
+            AudioInputStream stream = ResourceManager.soundMap.get(ResourceManager.BACKGROUND);
             stream.reset();
             backgroundSound = AudioSystem.getClip();
             backgroundSound.open(stream);
-            if (isSoundEnabled) {
-                backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
-                backgroundSound.start();
-            }
+            backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+            backgroundSound.start();
         } catch (LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
@@ -117,5 +122,9 @@ public class RessourcesManager {
 
     public static Image getImage(int image) {
         return imageMap.get(image);
+    }
+
+    public static void setSoundEnable(boolean isSoundEnable) {
+        ResourceManager.isSoundEnable = isSoundEnable;
     }
 }

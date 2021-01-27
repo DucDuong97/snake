@@ -1,6 +1,6 @@
 package de.unikl.seda.snake.gui.snake.gameobject.interfaces;
 
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
+import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
 import de.unikl.seda.snake.gui.snake.interfaces.Drawable;
 import de.unikl.seda.snake.gui.snake.gameobject.Point;
 
@@ -32,5 +32,5 @@ public abstract class GameObject implements Drawable {
         this.color = color;
     }
 
-    public abstract void draw(Graphics2D graphics, SnakeGameSettings gameSettings);
+    public abstract void draw(SnakeGameDrawer snakeGameDrawer);
 }

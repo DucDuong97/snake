@@ -1,7 +1,7 @@
 package de.unikl.seda.snake.gui.snake.gameobject.interfaces;
 
-import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.tools.GameObjectManager;
 
 public interface Hittable {
-    void whenHitting(SnakeGameState snakeGameState);
+    void whenHitting(GameObjectManager gameObjectManager);
 }

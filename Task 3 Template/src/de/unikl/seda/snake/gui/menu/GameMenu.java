@@ -1,21 +1,17 @@
 package de.unikl.seda.snake.gui.menu;
 
 import de.unikl.seda.snake.gui.snake.SnakeGameEnvironment;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
+import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
+import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.interfaces.Drawable;
 import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 import de.unikl.seda.snake.gui.menu.interfaces.MenuItem;
 import de.unikl.seda.snake.gui.menu.interfaces.Selectable;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
-
 public class GameMenu implements Drawable, Selectable {
-    private final static int FONT_SIZE = 20;
 
     private String name;
     private GameMenu parentGameMenu;
@@ -30,28 +26,8 @@ public class GameMenu implements Drawable, Selectable {
     }
 
     @Override
-    public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
-        final int cellHeight = FONT_SIZE + 10;
-        FontMetrics fontMetrics = graphics.getFontMetrics();
-
-        //highlight current position
-        graphics.setColor(Color.lightGray);
-        graphics.fillRect(0, GAME_INFO_BANNER_HEIGHT + cellHeight*position, gameSettings.getWidth(), cellHeight);
-
-        //draw cell
-        graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE));
-        int yText = GAME_INFO_BANNER_HEIGHT - 6;
-        for (MenuItem item : childItem) {
-            int xText = 10;
-            yText += cellHeight;
-            graphics.drawString(item.getName(), xText, yText);
-            if (item instanceof Adjustable) {
-                String text = "- " + ((Adjustable)item).getValue() + " +";
-                xText = gameSettings.getWidth() - fontMetrics.stringWidth(text) * 2;
-                graphics.drawString(text, xText, yText);
-            }
-        }
+    public void draw(SnakeGameDrawer snakeGameDrawer) {
+        snakeGameDrawer.drawMenu(childItem, position);
     }
 
     public boolean selectItem(SnakeGameEnvironment snakeGameEnvironment) {
@@ -64,14 +40,14 @@ public class GameMenu implements Drawable, Selectable {
 
     @Override
     public void selected(SnakeGameEnvironment snakeGameEnvironment) {
-        snakeGameEnvironment.setGameMenu(this);
+        snakeGameEnvironment.goToMenu(this);
     }
 
     public boolean back(SnakeGameEnvironment snakeGameEnvironment) {
         if (parentGameMenu == null) {
             return false;
         }
-        snakeGameEnvironment.setGameMenu(parentGameMenu);
+        snakeGameEnvironment.goToMenu(parentGameMenu);
         return true;
     }
 

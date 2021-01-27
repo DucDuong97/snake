@@ -1,6 +1,6 @@
 package de.unikl.seda.snake.gui.menu;
 
-import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
+import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
 import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 

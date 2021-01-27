@@ -1,12 +1,22 @@
 package de.unikl.seda.snake.gui.snake;
 
+import de.unikl.seda.snake.gui.menu.BackToMainMenuItem;
+import de.unikl.seda.snake.gui.menu.GameOverMenuItem;
+import de.unikl.seda.snake.gui.menu.ResumeMenuItem;
 import de.unikl.seda.snake.gui.snake.enums.MainState;
 import de.unikl.seda.snake.gui.menu.GameMenu;
-import de.unikl.seda.snake.gui.tools.GameEnvironment;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettingsAdjuster;
+import de.unikl.seda.snake.gui.tools.*;
+import de.unikl.seda.snake.highscore.HighScore;
+import de.unikl.seda.snake.highscore.HighScoreHandler;
+import de.unikl.seda.snake.settings.SettingsPersistentHandler;
+import de.unikl.seda.snake.settings.SnakeGameSettings;
+import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 
 import static de.unikl.seda.snake.gui.snake.enums.MainState.*;
 
@@ -15,19 +25,25 @@ public class SnakeGameEnvironment extends GameEnvironment {
     public static final int GAME_INFO_BANNER_HEIGHT = 25;
     public static final int INFO_HEIGHT = 18;
 
-    private SnakeGameState snakeGameState;
-    private GameMenu gameMenu;
+    private GameObjectManager gameObjectManager;
     private SnakeGameSettings snakeGameSettings;
-    private SnakeGameSettingsAdjuster snakeGameSettingsAdjuster;
-
+    private GameMenu gameMenu;
     private MainState mainState;
+
+    private SnakeGameDrawer snakeGameDrawer;
+    private SnakeGameSettingsAdjuster snakeGameSettingsAdjuster;
 
     public SnakeGameEnvironment() {
         // sets the size of the snake environment
         super(0, 0, 0);
         this.snakeGameSettings = new SnakeGameSettings(this);
-        this.snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(snakeGameSettings);
-        goToGameMenu();
+         snakeGameSettingsAdjuster = SettingsPersistentHandler.readSettings();
+        if (snakeGameSettingsAdjuster == null) {
+            snakeGameSettingsAdjuster = new SnakeGameSettingsAdjuster(this.snakeGameSettings);
+        } else {
+            snakeGameSettingsAdjuster.setupSnakeGameSettings(this.snakeGameSettings);
+        }
+        goToMainMenu();
     }
 
     @Override
@@ -74,25 +90,9 @@ public class SnakeGameEnvironment extends GameEnvironment {
 
     @Override
     protected void drawSnakeEnvironment(Graphics2D graphics) {
-        // draw Info Banner
-        graphics.setColor(new Color(125, 167, 116));
-        graphics.fillRect(0,0,this.getWidth(), GAME_INFO_BANNER_HEIGHT);
-        graphics.setColor(Color.BLACK);
-        graphics.drawString(snakeGameSettings.getPlayerName(), 10, INFO_HEIGHT);
-
-        // draw grid
-//        int y = GAME_INFO_BANNER_HEIGHT;
-//        while (y <= getHeight()) {
-//            int x = 0;
-//            while (x <= getWidth()) {
-//                graphics.drawRect(x, y, snakeGameSettings.getSquareSize(), snakeGameSettings.getSquareSize());
-//                x += snakeGameSettings.getSquareSize();
-//            }
-//            y += snakeGameSettings.getSquareSize();
-//        }
-
-        // draw Objects
-        mainState.draw(this, graphics);
+        this.snakeGameDrawer = new SnakeGameDrawer(snakeGameSettings, graphics);
+        this.snakeGameDrawer.drawInGameBanner(this);
+        mainState.draw(this);
     }
 
     public void makeThreadSleep() throws InterruptedException {
@@ -107,29 +107,63 @@ public class SnakeGameEnvironment extends GameEnvironment {
         return snakeGameSettings;
     }
 
-    public SnakeGameState getSnakeGameState() {
-        return snakeGameState;
+    public GameObjectManager getGameObjectManager() {
+        return gameObjectManager;
     }
 
     public GameMenu getGameMenu() {
         return gameMenu;
     }
 
-    public void setGameMenu(GameMenu gameMenu) {
-        this.gameMenu = gameMenu;
-    }
-
-    public void setMainState(MainState mainState) {
-        this.mainState = mainState;
+    public SnakeGameDrawer getSnakeGameDrawer() {
+        return snakeGameDrawer;
     }
 
     public void startGame() {
-        this.snakeGameState = new SnakeGameState(snakeGameSettings);
+        this.gameObjectManager = new GameObjectManager(this);
         this.mainState = IN_GAME;
     }
 
-    public void goToGameMenu() {
-        this.gameMenu = GameMenu.createMainMenu(this.snakeGameSettingsAdjuster);
+    public void goToMainMenu() {
+        this.gameMenu = GameMenu.createMainMenu(snakeGameSettingsAdjuster);
         this.mainState = IN_MENU;
+    }
+
+    public void goToMenu(GameMenu gameMenu) {
+        this.gameMenu = gameMenu;
+    }
+
+    public void goToPauseMenu() {
+        this.gameMenu = new GameMenu(
+                null,
+                Arrays.asList(
+                    new ResumeMenuItem(),
+                    new BackToMainMenuItem()
+                ),
+                "pause"
+        );
+
+        this.mainState = IN_MENU;
+    }
+
+    public void resumeGame() {
+        this.mainState = IN_GAME;
+    }
+
+    public void goToGameOverMenu(int score) {
+        HighScore h = new HighScore(snakeGameSettings.getPlayerName(),  score, new Date()
+                , snakeGameSettings.getGameSpeed(), snakeGameSettings.getGameLevel().toString());
+        if (HighScoreHandler.isNewHighScore(h)) {
+            JOptionPane.showMessageDialog(null, "You had reach the top 10");
+            HighScoreHandler.updateHighScore(h);
+        }
+        this.gameMenu = new GameMenu(
+                null,
+                Collections.singletonList(new GameOverMenuItem()),
+                "game over"
+        );
+
+        this.mainState = IN_MENU;
+
     }
 }

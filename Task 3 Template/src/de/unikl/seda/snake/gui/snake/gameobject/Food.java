@@ -1,58 +1,44 @@
 package de.unikl.seda.snake.gui.snake.gameobject;
 
-import de.unikl.seda.snake.gui.tools.RessourcesManager;
-import de.unikl.seda.snake.gui.tools.SnakeGameSettings;
-import de.unikl.seda.snake.gui.snake.SnakeGameState;
+import de.unikl.seda.snake.gui.tools.ResourceManager;
+import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
+import de.unikl.seda.snake.gui.tools.GameObjectManager;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 
 import java.awt.*;
-
-import static de.unikl.seda.snake.gui.snake.SnakeGameEnvironment.GAME_INFO_BANNER_HEIGHT;
 
 public class Food extends Updatable implements Hittable {
 
     private int span = 50;
 
     public Food(Point location) {
-        super(location, Color.YELLOW, FOOD);
+        super(location, Color.YELLOW, getFoodProperty());
     }
 
     @Override
-    public void whenHitting(SnakeGameState snakeGameState) {
-        snakeGameState.removeObject(this);
-        snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
-        snakeGameState.increaseScore();
+    public void whenHitting(GameObjectManager gameObjectManager) {
+        gameObjectManager.removeObject(this);
+        gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint()));
+        gameObjectManager.increaseScore();
+        ResourceManager.playSound(ResourceManager.FOOD_EATEN);
+
+        gameObjectManager.setPoop(gameObjectManager.isPoopMode());
     }
 
     @Override
-    public void update(SnakeGameState snakeGameState) {
+    public void update(GameObjectManager gameObjectManager) {
         if (span == 0) {
-            snakeGameState.removeObject(this);
-            snakeGameState.addObject(new Food(snakeGameState.generateRandomPoint()));
+            gameObjectManager.removeObject(this);
+            gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint()));
         } else {
             span--;
         }
+        System.out.println(span);
     }
 
     @Override
-    public void draw(Graphics2D graphics, SnakeGameSettings gameSettings) {
-        /*
-        graphics.setColor(color);
-        graphics.fillRoundRect(location.getX() * gameSettings.getSquareSize(),
-                location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize());
-        */
-
-        graphics.drawImage(RessourcesManager.getImage(4),
-                location.getX() * gameSettings.getSquareSize(),
-                location.getY() * gameSettings.getSquareSize() + GAME_INFO_BANNER_HEIGHT,
-                gameSettings.getSquareSize(),
-                gameSettings.getSquareSize(),
-                null);
-
+    public void draw(SnakeGameDrawer snakeGameDrawer) {
+        snakeGameDrawer.drawImage(ResourceManager.getImage(ResourceManager.FOOD), this.location);
     }
 }
