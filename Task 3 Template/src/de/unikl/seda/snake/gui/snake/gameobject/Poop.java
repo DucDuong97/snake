@@ -23,6 +23,7 @@ public class Poop extends GameObject implements Hittable {
 
     @Override
     public void draw(SnakeGameDrawer snakeGameDrawer) {
+        //TODO
         snakeGameDrawer.drawRect(this.location, this.color);
     }
 }

@@ -16,13 +16,17 @@ public class Food extends Updatable implements Hittable {
         super(location, Color.YELLOW, getFoodProperty());
     }
 
+    public Food(Point location, int priority) {
+        super(location, Color.YELLOW, priority);
+    }
+
     @Override
     public void whenHitting(GameObjectManager gameObjectManager) {
         gameObjectManager.removeObject(this);
-        gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint()));
+        gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint(), getPriority()));
         gameObjectManager.increaseScore();
         ResourceManager.playSound(ResourceManager.FOOD_EATEN);
-
+        gameObjectManager.getSnakeTail().extendBody(gameObjectManager);
         gameObjectManager.setPoop(gameObjectManager.isPoopMode());
     }
 
@@ -30,11 +34,10 @@ public class Food extends Updatable implements Hittable {
     public void update(GameObjectManager gameObjectManager) {
         if (span == 0) {
             gameObjectManager.removeObject(this);
-            gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint()));
+            gameObjectManager.addObject(new Food(gameObjectManager.generateRandomPoint(), getPriority()));
         } else {
             span--;
         }
-        System.out.println(span);
     }
 
     @Override

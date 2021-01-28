@@ -7,8 +7,6 @@ import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Hittable;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 import java.util.*;
 
-import static de.unikl.seda.snake.gui.snake.enums.Direction.IDLE;
-
 public class GameObjectManager {
     private boolean poopMode;
     private int life;
@@ -21,12 +19,12 @@ public class GameObjectManager {
     // In-game Objects
     private Set<GameObject> objectSet;
     private Set<Updatable> updatableSet;
-    private Map<Point, Hittable> hittableMap;
+    private List<Hittable> hittableList;
     private Queue<Runnable> updateQueue;
     private boolean updating = false;
     // Snake
     private SnakeHead snakeHead;
-    private ArrayList<SnakeBody> snakeBody;
+    private SnakeTail snakeTail;
     private SnakeGameEnvironment snakeGameEnvironment;
 
     public GameObjectManager(SnakeGameEnvironment snakeGameEnvironment) {
@@ -43,7 +41,7 @@ public class GameObjectManager {
         this.score = 0;
         this.objectSet = new HashSet<>();
         this.updatableSet = new TreeSet<>();
-        this.hittableMap = new HashMap<>();
+        this.hittableList = new LinkedList<>();
         this.updateQueue = new LinkedList<>();
         buildWall();
         createSnake();
@@ -60,19 +58,23 @@ public class GameObjectManager {
     }
 
     private void createSnake() {
-        this.snakeHead = new SnakeHead(new Point(2,1));
-        SnakeBody firstSnakeBody = new SnakeBody(new Point(1,1));
+        this.snakeHead = new SnakeHead(new Point(3,1));
+        SnakeBody firstSnakeBody = new SnakeBody(new Point(2,1), this.snakeHead);
+        this.snakeTail = new SnakeTail(new Point(1, 1), firstSnakeBody);
         addObject(snakeHead);
-        snakeBody = new ArrayList<>();
-        this.snakeBody.add(firstSnakeBody);
         addObject(firstSnakeBody);
+        addObject(snakeTail);
     }
 
     public SnakeHead getSnakeHead() {
         return snakeHead;
     }
 
-    public int getScore() {
+    public SnakeTail getSnakeTail() {
+        return snakeTail;
+    }
+
+    int getScore() {
         return score;
     }
 
@@ -102,16 +104,10 @@ public class GameObjectManager {
         updating = true;
         this.updatableSet.forEach(updatable -> updatable.update(this));
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
-        Hittable hittable = hittableMap.get(snakeHead.getLocation());
-        if (!(hittable instanceof Food) && snakeHead.getCurrentDirection() != IDLE) {
-            Point poopLocation = snakeBody.get(0).getLocation();
-            removeObject(snakeBody.remove(0));
-            if (poop) {
-                addObject(new Poop(poopLocation));
-                poop = !poop;
-            }
-        }
-        if (hittable != null) { hittable.whenHitting(this); }
+        hittableList.stream()
+                .filter(hittable -> ((GameObject)hittable).getLocation().equals(snakeHead.getLocation()))
+                .findFirst()
+                .ifPresent(hittable -> hittable.whenHitting(this));
         while (!updateQueue.isEmpty()) updateQueue.poll().run();
         updating = false;
     }
@@ -147,53 +143,38 @@ public class GameObjectManager {
 
     public void addObject(GameObject object) {
         if (updating) {
-            this.updateQueue.add(()-> {
-                this.objectSet.add(object);
-                if (object instanceof Updatable) {
-                    //System.out.println("Added Updatable");
-                    updatableSet.add((Updatable)object);
-                }
-                if (object instanceof Hittable) {
-                    System.out.println("Added Hittable");
-                    hittableMap.put(object.getLocation(), (Hittable)object);
-                }
-            });
+            this.updateQueue.add(()-> add(object));
         } else {
-            this.objectSet.add(object);
-            if (object instanceof Updatable) {
+            add(object);
+        }
+    }
 
-                updatableSet.add((Updatable)object);
-            }
-            if (object instanceof Hittable) {
-                hittableMap.put(object.getLocation(), (Hittable)object);
-            }
+    private void add(GameObject object) {
+        this.objectSet.add(object);
+        if (object instanceof Updatable) {
+            updatableSet.add((Updatable)object);
+        }
+        if (object instanceof Hittable) {
+            hittableList.add((Hittable)object);
         }
     }
 
     public void removeObject(GameObject object) {
         if (updating) {
-            this.updateQueue.add(()-> {
-                this.objectSet.remove(object);
-                if (object instanceof Updatable) {
-                    updatableSet.remove(object);
-                }
-                if (object instanceof Hittable) {
-                    hittableMap.remove(object.getLocation());
-                }
-            });
+            this.updateQueue.add(()-> remove(object));
         } else {
-            this.objectSet.remove(object);
-            if (object instanceof Updatable) {
-                updatableSet.remove(object);
-            }
-            if (object instanceof Hittable) {
-                hittableMap.remove(object.getLocation());
-            }
+            remove(object);
         }
     }
 
-    public ArrayList<SnakeBody> getSnakeBody() {
-        return snakeBody;
+    private void remove(GameObject object) {
+        this.objectSet.remove(object);
+        if (object instanceof Updatable) {
+            updatableSet.remove(object);
+        }
+        if (object instanceof Hittable) {
+            hittableList.remove(object);
+        }
     }
 
     public int getxBound() {
@@ -206,6 +187,10 @@ public class GameObjectManager {
 
     public boolean isPoopMode() {
         return poopMode;
+    }
+
+    public boolean isPoop() {
+        return poop;
     }
 
     public void setPoop(boolean poopMode) {

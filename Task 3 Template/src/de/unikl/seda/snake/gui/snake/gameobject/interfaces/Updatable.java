@@ -9,7 +9,7 @@ public abstract class Updatable extends GameObject implements Comparable {
 
     private static final int BASE = 0;
     protected static final int SNAKE_HEAD = BASE + 1;
-    private static int FOOD = SNAKE_HEAD + 1;
+    protected static int FOOD = SNAKE_HEAD + 1;
     private static int SNAKE_BODY = FOOD + 1;
 
     protected static int getFoodProperty() {
@@ -18,6 +18,10 @@ public abstract class Updatable extends GameObject implements Comparable {
     }
 
     protected static int getSnakeBodyProperty() {
+        return SNAKE_BODY++;
+    }
+
+    protected static int getSnakeTailProperty() {
         return SNAKE_BODY++;
     }
 
@@ -30,12 +34,16 @@ public abstract class Updatable extends GameObject implements Comparable {
 
     public abstract void update(GameObjectManager gameObjectManager);
 
-    private int getPriority() {
+    protected int getPriority() {
         return this.priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     @Override
     public int compareTo(Object o) {
-        return this.priority - ((Updatable) o).getPriority();
+        return  ((Updatable) o).getPriority() - this.priority;
     }
 }
