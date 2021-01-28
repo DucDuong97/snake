@@ -1,5 +1,6 @@
 package de.unikl.seda.snake.gui.snake.gameobject;
 
+import de.unikl.seda.snake.gui.snake.enums.Direction;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.Updatable;
 import de.unikl.seda.snake.gui.tools.ResourceManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
@@ -14,12 +15,14 @@ import static de.unikl.seda.snake.gui.snake.enums.Direction.IDLE;
 public class SnakeBody extends SnakeHead implements Hittable {
 
     protected SnakeHead successor;
+    private Direction nextDirection;
 
     public SnakeBody(Point location, SnakeHead successor) {
         super(location);
         setPriority(getSnakeBodyProperty());
         this.successor = successor;
         setCurrentDirection(successor.getCurrentDirection());
+        this.nextDirection = successor.getCurrentDirection();
     }
 
     @Override
@@ -32,19 +35,27 @@ public class SnakeBody extends SnakeHead implements Hittable {
         if (gameObjectManager.getSnakeHead().getCurrentDirection() == IDLE) {
             return;
         }
-        setCurrentDirection(successor.getCurrentDirection());
-//        setLocation(successor.getLocation());
+        if (successor instanceof SnakeBody) {
+            setCurrentDirection(successor.getCurrentDirection());
+        } else {
+            setCurrentDirection(nextDirection);
+        }
         Point currentLocation = getLocation();
         currentLocation.setX(successor.getLocation().getX());
         currentLocation.setY(successor.getLocation().getY());
 
+        nextDirection = successor.getCurrentDirection();
         System.out.println(location.getX() + " " + location.getY());
         System.out.println(getCurrentDirection());
     }
 
     @Override
     public void draw(SnakeGameDrawer snakeGameDrawer) {
-        //TODO
-        snakeGameDrawer.drawImage(ResourceManager.getImage(ResourceManager.SNAKE_BODY), this.location);
+        if (successor instanceof SnakeBody) {
+            snakeGameDrawer.drawImage(ResourceManager.getImage(getCurrentDirection().bodyImageCode(successor.getCurrentDirection())), this.location);
+
+        } else {
+            snakeGameDrawer.drawImage(ResourceManager.getImage(getCurrentDirection().bodyImageCode(nextDirection)), this.location);
+        }
     }
 }

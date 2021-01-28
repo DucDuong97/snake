@@ -39,8 +39,20 @@ public enum Direction {
         }
 
         @Override
-        public int imageCode() {
+        public int headImageCode() {
             return SNAKE_HEAD_LEFT;
+        }
+
+        @Override
+        public int bodyImageCode(Direction ofSuccessor) {
+            if (ofSuccessor == UP) return SNAKE_BODY_DOWNRIGHT;
+            if (ofSuccessor == DOWN) return SNAKE_BODY_UPRIGHT;
+            return SNAKE_BODY_STRAIGHT_HOZ;
+        }
+
+        @Override
+        public int tailImageCode() {
+            return SNAKE_TAIL_LEFT;
         }
     },
 
@@ -78,8 +90,20 @@ public enum Direction {
         }
 
         @Override
-        public int imageCode() {
+        public int headImageCode() {
             return SNAKE_HEAD_RIGHT;
+        }
+
+        @Override
+        public int bodyImageCode(Direction ofSuccessor) {
+            if (ofSuccessor == UP) return SNAKE_BODY_DOWNLEFT;
+            if (ofSuccessor == DOWN) return SNAKE_BODY_UPLEFT;
+            return SNAKE_BODY_STRAIGHT_HOZ;
+        }
+
+        @Override
+        public int tailImageCode() {
+            return SNAKE_TAIL_RIGHT;
         }
     },
 
@@ -117,8 +141,20 @@ public enum Direction {
         }
 
         @Override
-        public int imageCode() {
+        public int headImageCode() {
             return SNAKE_HEAD_UP;
+        }
+
+        @Override
+        public int bodyImageCode(Direction ofSuccessor) {
+            if (ofSuccessor == LEFT) return SNAKE_BODY_UPLEFT;
+            if (ofSuccessor == RIGHT) return SNAKE_BODY_UPRIGHT;
+            return SNAKE_BODY_STRAIGHT_VER;
+        }
+
+        @Override
+        public int tailImageCode() {
+            return SNAKE_TAIL_UP;
         }
     },
 
@@ -156,8 +192,20 @@ public enum Direction {
         }
 
         @Override
-        public int imageCode() {
+        public int headImageCode() {
             return SNAKE_HEAD_DOWN;
+        }
+
+        @Override
+        public int bodyImageCode(Direction ofSuccessor) {
+            if (ofSuccessor == LEFT) return SNAKE_BODY_DOWNLEFT;
+            if (ofSuccessor == RIGHT) return SNAKE_BODY_DOWNRIGHT;
+            return SNAKE_BODY_STRAIGHT_VER;
+        }
+
+        @Override
+        public int tailImageCode() {
+            return SNAKE_TAIL_DOWN;
         }
     },
 
@@ -192,8 +240,18 @@ public enum Direction {
         }
 
         @Override
-        public int imageCode() {
+        public int headImageCode() {
             return SNAKE_HEAD_RIGHT;
+        }
+
+        @Override
+        public int bodyImageCode(Direction ofSuccessor) {
+            return SNAKE_BODY_STRAIGHT_HOZ;
+        }
+
+        @Override
+        public int tailImageCode() {
+            return SNAKE_TAIL_RIGHT;
         }
     };
 
@@ -204,5 +262,7 @@ public enum Direction {
 
     public abstract void update(GameObjectManager gameObjectManager);
 
-    public abstract int imageCode();
+    public abstract int headImageCode();
+    public abstract int bodyImageCode(Direction ofSuccessor);
+    public abstract int tailImageCode();
 }

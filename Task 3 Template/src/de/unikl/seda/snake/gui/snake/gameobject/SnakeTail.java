@@ -2,6 +2,7 @@ package de.unikl.seda.snake.gui.snake.gameobject;
 
 import de.unikl.seda.snake.gui.snake.enums.Direction;
 import de.unikl.seda.snake.gui.tools.GameObjectManager;
+import de.unikl.seda.snake.gui.tools.ResourceManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
 
 import static de.unikl.seda.snake.gui.snake.enums.Direction.IDLE;
@@ -34,8 +35,8 @@ public class SnakeTail extends SnakeBody {
 
     @Override
     public void draw(SnakeGameDrawer snakeGameDrawer) {
-        super.draw(snakeGameDrawer);
-        //TODO
+        snakeGameDrawer.drawImage(ResourceManager.getImage(successor.getCurrentDirection().tailImageCode()), this.location);
+
     }
 
     void extendBody(GameObjectManager gameObjectManager) {

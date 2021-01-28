@@ -31,7 +31,7 @@ public class SnakeHead extends Updatable {
 
     @Override
     public void draw(SnakeGameDrawer snakeGameDrawer) {
-        snakeGameDrawer.drawImage(ResourceManager.getImage(this.currentDirection.imageCode()), this.location);
+        snakeGameDrawer.drawImage(ResourceManager.getImage(this.currentDirection.headImageCode()), this.location);
     }
 
     public Direction getCurrentDirection() {

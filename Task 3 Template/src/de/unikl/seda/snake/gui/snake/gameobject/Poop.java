@@ -1,5 +1,6 @@
 package de.unikl.seda.snake.gui.snake.gameobject;
 
+import de.unikl.seda.snake.gui.tools.ResourceManager;
 import de.unikl.seda.snake.gui.tools.SnakeGameDrawer;
 import de.unikl.seda.snake.gui.tools.GameObjectManager;
 import de.unikl.seda.snake.gui.snake.gameobject.interfaces.GameObject;
@@ -23,7 +24,6 @@ public class Poop extends GameObject implements Hittable {
 
     @Override
     public void draw(SnakeGameDrawer snakeGameDrawer) {
-        //TODO
-        snakeGameDrawer.drawRect(this.location, this.color);
+        snakeGameDrawer.drawImage(ResourceManager.getImage(ResourceManager.POOP), this.location);
     }
 }

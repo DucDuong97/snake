@@ -17,7 +17,7 @@ public class SnakeGameSettingsAdjuster implements Serializable {
     public final static int REGULAR = 2;
     public final static int BIG = 3;
 
-    private final static int speedBias = 300;
+    private final static int speedBias = 100;
 
     private final static int speedNorm = 25;
     private final static int heightNorm = 9 * 30;
@@ -49,7 +49,7 @@ public class SnakeGameSettingsAdjuster implements Serializable {
         setSpeedLevel(1);
         setSoundEnabled(true);
         setNumOfFoods(1);
-        setPoopMode(false);
+        setPoopMode(true);
         setScreenSize(1);
         SettingsPersistentHandler.writeSettings(this);
     }
