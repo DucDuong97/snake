@@ -3,6 +3,9 @@ package de.unikl.seda.snake.gui.menu;
 import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 
+import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UNDER_BOUND;
+import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UPPER_BOUND;
+
 public class ResolutionMenuItem extends Adjustable {
     private int level;
     public ResolutionMenuItem(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
@@ -17,7 +20,7 @@ public class ResolutionMenuItem extends Adjustable {
 
     @Override
     public void increase() {
-        if (this.level > 2) {
+        if (this.level >= UPPER_BOUND) {
             return;
         }
         snakeGameSettingsAdjuster.setScreenSize(++this.level);
@@ -25,7 +28,7 @@ public class ResolutionMenuItem extends Adjustable {
 
     @Override
     public void decrease() {
-        if (this.level <= 1) {
+        if (this.level <= UNDER_BOUND) {
             return;
         }
         snakeGameSettingsAdjuster.setScreenSize(--level);

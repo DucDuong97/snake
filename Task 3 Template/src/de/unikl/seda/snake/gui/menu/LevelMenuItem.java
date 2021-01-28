@@ -4,6 +4,9 @@ import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.snake.enums.GameLevel;
 import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
 
+import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UNDER_BOUND;
+import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UPPER_BOUND;
+
 public class LevelMenuItem extends Adjustable {
     private int level;
     public LevelMenuItem(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
@@ -18,7 +21,7 @@ public class LevelMenuItem extends Adjustable {
 
     @Override
     public void increase() {
-        if (this.level > GameLevel.values().length - 2) {
+        if (this.level >= UPPER_BOUND) {
             return;
         }
         snakeGameSettingsAdjuster.setGameLevel(++this.level);
@@ -26,7 +29,7 @@ public class LevelMenuItem extends Adjustable {
 
     @Override
     public void decrease() {
-        if (this.level <= 0) {
+        if (this.level <= UNDER_BOUND) {
             return;
         }
         snakeGameSettingsAdjuster.setGameLevel(--this.level);

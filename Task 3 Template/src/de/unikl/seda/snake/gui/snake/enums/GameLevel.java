@@ -15,7 +15,7 @@ public enum GameLevel {
 
         @Override
         public int getConst() {
-            return 0;
+            return 1;
         }
     },
 
@@ -36,7 +36,7 @@ public enum GameLevel {
 
         @Override
         public int getConst() {
-            return 1;
+            return 2;
         }
     },
 
@@ -65,7 +65,7 @@ public enum GameLevel {
 
         @Override
         public int getConst() {
-            return 2;
+            return 3;
         }
     };
 

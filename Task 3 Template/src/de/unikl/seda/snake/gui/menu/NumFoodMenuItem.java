@@ -1,43 +1,42 @@
 package de.unikl.seda.snake.gui.menu;
 
-import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 import de.unikl.seda.snake.gui.menu.interfaces.Adjustable;
+import de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster;
 
 import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UNDER_BOUND;
 import static de.unikl.seda.snake.settings.SnakeGameSettingsAdjuster.UPPER_BOUND;
 
-public class SpeedMenuItem extends Adjustable {
+public class NumFoodMenuItem extends Adjustable {
+    private int num;
 
-    private int level;
-
-    public SpeedMenuItem(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
+    public NumFoodMenuItem(SnakeGameSettingsAdjuster snakeGameSettingsAdjuster) {
         super(snakeGameSettingsAdjuster);
-        this.level = snakeGameSettingsAdjuster.getSpeedLevel();
+        this.num = snakeGameSettingsAdjuster.getNumOfFoods();
     }
 
     @Override
     public double getValue() {
-        return level;
+        return num;
     }
 
     @Override
     public void increase() {
-        if (this.level >= UPPER_BOUND) {
+        if (this.num >= UPPER_BOUND) {
             return;
         }
-        snakeGameSettingsAdjuster.setSpeedLevel(++level);
+        snakeGameSettingsAdjuster.setNumOfFoods(++this.num);
     }
 
     @Override
     public void decrease() {
-        if (this.level <= UNDER_BOUND) {
+        if (this.num <= UNDER_BOUND) {
             return;
         }
-        snakeGameSettingsAdjuster.setSpeedLevel(--level);
+        snakeGameSettingsAdjuster.setNumOfFoods(++this.num);
     }
 
     @Override
     public String getName() {
-        return "Speed";
+        return "Number of Foods";
     }
 }

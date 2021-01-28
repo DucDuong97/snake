@@ -148,6 +148,9 @@ public class ResourceManager {
     }
 
     public static void stopBackgroundSound() {
+        if (!isSoundEnable) {
+            return;
+        }
         backgroundSound.stop();
     }
 
