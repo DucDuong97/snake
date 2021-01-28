@@ -8,11 +8,12 @@ import java.awt.*;
 public abstract class Updatable extends GameObject implements Comparable {
 
     private static final int BASE = 0;
-    protected static final int SNAKE_HEAD = BASE + 1;
-    protected static int FOOD = SNAKE_HEAD + 1;
-    private static int SNAKE_BODY = FOOD + 1;
+    protected static int FOOD = BASE + 1;
+    protected static int SNAKE_HEAD = FOOD + 1;
+    private static int SNAKE_BODY = SNAKE_HEAD + 1;
 
     protected static int getFoodProperty() {
+        SNAKE_HEAD++;
         SNAKE_BODY++;
         return FOOD++;
     }
@@ -30,6 +31,7 @@ public abstract class Updatable extends GameObject implements Comparable {
     public Updatable(Point location, Color color, int priority) {
         super(location, color);
         this.priority = priority;
+        System.out.println(color.toString() + " " + priority);
     }
 
     public abstract void update(GameObjectManager gameObjectManager);

@@ -22,11 +22,6 @@ public class SnakeHead extends Updatable {
     @Override
     public void update(GameObjectManager gameObjectManager) {
         currentDirection.update(gameObjectManager);
-
-        System.out.println(location.getX() + " " + location.getY());
-        System.out.println(currentDirection);
-
-        System.out.println();
     }
 
     @Override

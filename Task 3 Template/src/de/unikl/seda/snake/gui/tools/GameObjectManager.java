@@ -44,10 +44,10 @@ public class GameObjectManager {
         this.hittableList = new LinkedList<>();
         this.updateQueue = new LinkedList<>();
         buildWall();
-        createSnake();
         for (int i = 0; i < snakeGameEnvironment.getSnakeGameSettings().getNumOfFoods(); i++) {
             addObject(new Food(generateRandomPoint()));
         }
+        createSnake();
     }
 
     private void buildWall() {
@@ -122,6 +122,7 @@ public class GameObjectManager {
 
         Point tempPoint;
         do {
+            overlap = false;
             //Generate a x-coordinate between [0, getWidth()], the value must divisible by pixel
             x = rand.nextInt(xBound);
             //Generate a y-coordinate between [GAME_INFO_BANNER_HEIGHT, getHeight() - pixel]

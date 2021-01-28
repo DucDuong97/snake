@@ -32,7 +32,7 @@ public class NumFoodMenuItem extends Adjustable {
         if (this.num <= UNDER_BOUND) {
             return;
         }
-        snakeGameSettingsAdjuster.setNumOfFoods(++this.num);
+        snakeGameSettingsAdjuster.setNumOfFoods(--this.num);
     }
 
     @Override

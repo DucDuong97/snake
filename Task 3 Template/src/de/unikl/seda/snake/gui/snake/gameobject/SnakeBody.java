@@ -45,8 +45,6 @@ public class SnakeBody extends SnakeHead implements Hittable {
         currentLocation.setY(successor.getLocation().getY());
 
         nextDirection = successor.getCurrentDirection();
-        System.out.println(location.getX() + " " + location.getY());
-        System.out.println(getCurrentDirection());
     }
 
     @Override
